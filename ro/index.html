@@ -1,14 +1,62 @@
+<!doctype html>
+<html>
+
 <head>
-  <script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
-  <script src="https://cdn.jsdelivr.net/npm/vega-embed@4"></script>
+
+  <meta charset="utf-8">
+  <script src="js/d3-fetch.v1.min.js"></script>
+  <script src="js/d3-dsv.v1.min.js"></script>
+  <script src="js/d3-selection.v1.min.js"></script>
+  <script src="https://d3plus.org/js/d3plus-form.v0.2.full.min.js"></script>
+  <script src="https://d3plus.org/js/d3plus-priestley.v0.3.full.min.js"></script>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+  </style>
+
 </head>
 
-<body>
-  <div id="view"></div>
-  <script>
-    vegaEmbed(
-      '#view',
-      'json/member_timelines_viz.json'
-    );
-  </script>
-</body>
+<body></body>
+
+<script>
+  d3.json('json/member_timelines.json').then(function (rawdata) {
+
+    var members = Array.from(new Set(rawdata.map(d => d.Simple)));
+    var order = {
+      'Kamara': 0,
+      'Megye': 1,
+      'Párt': 2,
+      'Ország': 4,
+      'Bizottság': 3
+    }
+
+    var viz = new d3plus.Priestley()
+      .data([])
+      .color("Típus")
+      .groupBy(["Típus", "Csoportok"])
+      .depth(1)
+      .width(600)
+      .height(400)
+      .loadingMessage(false)
+
+    function load(member) {
+      var ndata = rawdata.filter(function (d) {
+        return (d.Name == member)
+      })
+      ndata.sort((a, b) => order[a.Típus] - order[b.Típus]);
+      viz.data(ndata)
+        //.title(member)
+        .render()
+    }
+
+    load('Victor-Viorel PONTA')
+    setTimeout(function () {
+      load('KELEMEN Hunor')
+    }, 3000)
+
+  })
+</script>
+
+</html>
