@@ -7,10 +7,10 @@
   <script src="js/d3-fetch.v1.min.js"></script>
   <script src="js/d3-dsv.v1.min.js"></script>
   <script src="js/d3-selection.v1.min.js"></script>
-  <script src="https://d3plus.org/js/d3plus-form.v0.2.full.min.js"></script>
+  <!-- <script src="https://d3plus.org/js/d3plus-form.v0.2.full.min.js"></script> -->
   <script src="https://d3plus.org/js/d3plus-priestley.v0.3.full.min.js"></script>
-  <script src="https://d3plus.org/js/d3plus-timeline.v0.4.full.min.js"></script>
-  <script src="https://d3plus.org/js/d3plus-legend.v0.8.full.min.js"></script>
+  <!-- <script src="https://d3plus.org/js/d3plus-timeline.v0.4.full.min.js"></script> -->
+  <!-- <script src="https://d3plus.org/js/d3plus-legend.v0.8.full.min.js"></script> -->
   <style>
     body {
       margin: 0;
@@ -95,7 +95,9 @@
       height: 40px;
     }
 
-    #right2:hover,#left:hover,#right1:hover {
+    #right2:hover,
+    #left:hover,
+    #right1:hover {
       text-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
     }
   </style>
@@ -115,116 +117,145 @@
 
 <script>
   d3.json('json/member_timelines.json').then(function (rawdata) {
+    d3.json('json/member_simple.json').then(function (rawsimple) {
 
-    //console.log(rawdata);
+      var simple = rawsimple['s'];
+      var members = rawsimple['m'];
+      var m2x = rawsimple['m2x'];
+      var x2m = rawsimple['x2m'];
 
-    var base_url = 'http://www.cdep.ro';
-    var legend = ['Kamara', 'Megye', 'Párt', 'Bizottság', 'Ország'];
-    var members = Array.from(new Set(rawdata.map(d => d.Name))).sort();
-    var order = {
-      'Kamara': 0,
-      'Megye': 1,
-      'Párt': 2,
-      'Ország': 4,
-      'Bizottság': 3
-    }
+      var base_url = 'http://www.cdep.ro';
+      var legend = ['Kamara', 'Megye', 'Párt', 'Bizottság', 'Ország'];
 
-    var viz = new d3plus.Priestley()
-      .data([])
-      .color("Típus")
-      .groupBy(["Típus", "Csoportok1"])
-      .axisConfig(
-        {
-          //domain: ['1990', '2020']
-        }
-      )
-      .depth(1)
-      .width(600)
-      .height(400)
-      .loadingMessage(false)
+      var x = 0;
 
-    function load(member) {
-      console.log('Loaded', member)
-      d3.select('#myInput')
-        .property('value', member)
-      var ndata = rawdata
-        .filter(function (d) {
-          return (d.Name == member)
+      var order = {
+        'Kamara': 0,
+        'Megye': 1,
+        'Párt': 2,
+        'Ország': 4,
+        'Bizottság': 3
+      }
+
+      var viz = new d3plus.Priestley()
+        .data([])
+        .color("Típus")
+        .groupBy(["Típus", "Csoportok1"])
+        .shapeConfig({
+          labelConfig: {
+            fontFamily: "sans-serif",
+            fontMin: 14
+          }
         })
-      ndata.sort((a, b) => order[a.Típus] - order[b.Típus]);
-      viz.data(ndata)
-        //.title(member)
-        .render()
-    }
+        .legend(false)
+        .axisConfig(
+          {
+            domain: ['1990', '2020']
+          }
+        )
+        .depth(1)
+        .width(600)
+        .height(350)
+        .loadingMessage(false)
 
-    load('Victor-Viorel PONTA')
+      function load(member) {
+        x = m2x[member]
+        console.log('Loaded member', x, member)
+        d3.select('#myInput')
+          .property('value', member)
+        var ndata = rawdata
+          .filter(function (d) {
+            return (d.Name == member)
+          })
+        ndata.sort((a, b) => order[a.Típus] - order[b.Típus]);
+        viz.data(ndata)
+          //.title(member)
+          .render()
+      }
 
-    function myFunction() {
-      // Declare variables
-      var input, filter, ul, li, a, i, txtValue;
-      input = document.getElementById('myInput');
-      filter = input.value.toUpperCase();
-      ul = document.getElementById("myUL");
-      li = ul.getElementsByTagName('li');
+      load('Victor-Viorel PONTA')
 
-      // Loop through all list items, and hide those who don't match the search query
-      for (i = 0; i < li.length; i++) {
-        a = li[i].getElementsByTagName("a")[0];
-        txtValue = a.textContent ||
-          a.innerText;
-        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-          li[i].style.display = "";
-        } else {
-          li[i].style.display = "none";
+      function myFunction() {
+        // Declare variables
+        var input, filter, ul, li, a, i, txtValue;
+        input = document.getElementById('myInput');
+        filter = input.value.toUpperCase();
+        ul = document.getElementById("myUL");
+        li = ul.getElementsByTagName('li');
+
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < li.length; i++) {
+          a = li[i].getElementsByTagName("a")[0];
+          txtValue = a.textContent ||
+            a.innerText;
+          if ((txtValue.toUpperCase().indexOf(filter) > -1) || (simple[txtValue].toUpperCase().indexOf(filter) > -1)) {
+            li[i].style.display = "";
+          } else {
+            li[i].style.display = "none";
+          }
         }
       }
-    }
 
-    var drop = false;
-    d3.select('#myInput')
-      .on('keyup', myFunction)
-      .on('click', function (d) {
-        drop = !drop;
-        d3.select('#myUL')
-          .style('display', (drop) ? 'block' : 'none')
-      })
+      var drop = false;
+      d3.select('#myInput')
+        // .property('autofocus', true)
+        .on('keyup', myFunction)
+        .on('click', function (d) {
+          drop = !drop;
+          d3.select('#myUL')
+            .style('display', (drop) ? 'block' : 'none')
+        })
 
-    d3.select('#left')
-      .on('click', function (d) {
-        drop = !drop;
-        d3.select('#myUL')
-          .style('display', (drop) ? 'block' : 'none')
-      })
+      d3.select('#left')
+        .on('click', function (d) {
+          drop = !drop;
+          d3.select('#myUL')
+            .style('display', (drop) ? 'block' : 'none')
+        })
 
-    // d3.select('body')
-    //   .on('click', function (d) {
-    //     drop = false;
-    //     d3.select('#myUL')
-    //       .style('display', 'none')
-    //   })
+      d3.select('#right2')
+        .on('click', function (d) {
+          drop = false;
+          d3.select('#myUL')
+            .style('display', (drop) ? 'block' : 'none')
+          load(x2m[x + 1]);
+        })
 
-    d3.select('#myUL')
-      .selectAll('li')
-      .data(members)
-      .enter()
-      .append('li')
-      .append('a')
-      .attr('href', '#')
-      .text(function (d) {
-        return d
-      })
-      .on('click', function (d) {
-        drop = false;
-        d3.select('#myUL')
-          .style('display', 'none')
-        load(d)
-        setTimeout(function () {
+      d3.select('#right1')
+        .on('click', function (d) {
+          drop = false;
+          d3.select('#myUL')
+            .style('display', (drop) ? 'block' : 'none')
+          load(x2m[Math.max(0, x - 1)]);
+        })
+
+      // d3.select('body')
+      //   .on('click', function (d) {
+      //     drop = false;
+      //     d3.select('#myUL')
+      //       .style('display', 'none')
+      //   })
+
+      d3.select('#myUL')
+        .selectAll('li')
+        .data(members)
+        .enter()
+        .append('li')
+        .append('a')
+        .attr('href', '#')
+        .text(function (d) {
+          return d
+        })
+        .on('click', function (d) {
+          drop = false;
+          d3.select('#myUL')
+            .style('display', 'none')
           load(d)
-        }, 2000)
-      })
-
-
-
+          setTimeout(function () {
+            load(d)
+          }, 2000)
+        })
+    })
   })
 </script>
 
