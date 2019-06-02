@@ -1,480 +1,405 @@
 {
-  "$schema": "https://vega.github.io/schema/vega/v5.json",
-  "width": 650,
-  "height": 550,
-  "padding": 5,
-  "signals": [
-    {
-      "name": "Label", "value": "party2",
-      "bind": {"input": "radio",
-      "options": ["party", "group","party2", "group2", "none"],
-      "name": "Címke"
-      }
-    },
-    {
-      "name": "Layout", "value": "cluster",
-      "bind": {"input": "radio", "options": ["tidy","cluster"],
-      "name": "Elrendezés"
-      }
-    },
-    {
-      "name": "Year", "value": 2018,
-      "bind": {
-        "input": "range",
-         "min": 2008, "max": 2018, "step": 5,
-         "name": "Év"
-      }
-    },
-    {
-      "name": "Links", "value": "diagonal",
-      "description":"Changes layout of dendrogram",
-      "bind": {
-        "input": "select",
-        "options": ["line", "curve", "diagonal", "orthogonal"],
-        "name": "Linkek"
-      }
-    },
-    {
-      "name": "Cluster", "value": "name",
-      "bind": {
-        "input": "select",
-        "options": ["name", "party", "group"],
-        "name": "Csoport"
-      }
-    },
-    {
-      "name": "Country", "value": "Romania",
-      "bind": {
-        "input": "select",
-        "options": ["Romania", "Hungary", "Joint"],
-        "name": "Ország"
-      }
-    },
-    {
-      "name": "Area",
-      "value": "All areas",
-      "bind": {
-        "input": "select",
-        "options": [
-          "All areas",
-          "ACP Countries",
-          "Afghanistan",
-          "Albania",
-          "Algeria",
-          "Andorra",
-          "Armenia",
-          "Atlantic Ocean Area",
-          "Australia",
-          "Austria",
-          "Azerbaijan",
-          "Baltic Sea Area",
-          "Bangladesh",
-          "Belarus",
-          "Belgium",
-          "Belize",
-          "Black Sea area",
-          "Bosnia and Herzegovina",
-          "Botswana",
-          "Brazil",
-          "Brunei",
-          "Bulgaria",
-          "Burma",
-          "Cambodia",
-          "Cameroon",
-          "Canada",
-          "Cape Verde",
-          "Chad",
-          "Chile",
-          "China",
-          "Colombia",
-          "Comoros",
-          "Congo DR, ex-Zaire",
-          "Cook Islands",
-          "Costa Rica",
-          "Croatia",
-          "Cuba",
-          "Cyprus",
-          "Czech Republic",
-          "Côte d'Ivoire ",
-          "Denmark",
-          "Dominica",
-          "Dominican Republic",
-          "Ecuador",
-          "Egypt",
-          "El Salvador",
-          "Eritrea",
-          "Estonia",
-          "Ethiopia",
-          "Faroe Islands",
-          "Finland",
-          "France",
-          "French Guiana",
-          "Gabon",
-          "Georgia",
-          "Germany FR",
-          "Ghana",
-          "Greece",
-          "Greenland",
-          "Grenada",
-          "Guadeloupe",
-          "Guatemala",
-          "Guinea",
-          "Guinea-Bissau",
-          "Honduras",
-          "Hungary",
-          "Iceland",
-          "India",
-          "Indonesia",
-          "Iran",
-          "Iraq",
-          "Ireland",
-          "Israel",
-          "Italy",
-          "Jamaica",
-          "Japan",
-          "Jordan",
-          "Kazakhstan",
-          "Kiribati",
-          "Korea, Republic",
-          "Kosovo",
-          "Kyrgyzstan",
-          "Laos",
-          "Latvia",
-          "Lebanon",
-          "Lesotho",
-          "Liberia",
-          "Libya",
-          "Liechtenstein",
-          "Lithuania",
-          "Macao",
-          "Macedonia",
-          "Madagascar",
-          "Malaysia",
-          "Maldives",
-          "Malta",
-          "Marshall Islands",
-          "Martinique",
-          "Mauritania",
-          "Mauritius",
-          "Mayotte",
-          "Mediterranean Sea Area",
-          "Mexico",
-          "Micronesia",
-          "Moldova",
-          "Monaco",
-          "Mongolia",
-          "Montenegro",
-          "Morocco",
-          "Mozambique",
-          "Myanmar",
-          "Namibia",
-          "Netherlands",
-          "New Zealand",
-          "Nicaragua",
-          "Nigeria",
-          "North Sea Area",
-          "Norway",
-          "Pakistan",
-          "Palau",
-          "Palestine Authority",
-          "Panama",
-          "Peru",
-          "Philippines",
-          "Poland",
-          "Portugal",
-          "Romania",
-          "Russian Federation",
-          "Réunion",
-          "Saint Lucia",
-          "Saint Vincent and Grenadines",
-          "Samoa",
-          "Sao Tome and Principe",
-          "Saudi Arabia",
-          "Senegal",
-          "Serbia",
-          "Seychelles",
-          "Sierra Leone",
-          "Singapore",
-          "Slovakia",
-          "Slovenia",
-          "Solomon Islands",
-          "Somalia",
-          "South Africa",
-          "South Korea",
-          "Spain",
-          "Sri Lanka",
-          "Sudan",
-          "Suriname",
-          "Swaziland",
-          "Sweden",
-          "Switzerland",
-          "Syrian Arab Republic",
-          "Tajikistan",
-          "Thailand",
-          "Tibet",
-          "Timor-Leste",
-          "Tonga",
-          "Trinidad and Tobago",
-          "Tunisia",
-          "Turkey",
-          "Turkmenistan",
-          "Tuvalu",
-          "Uganda",
-          "Ukraine",
-          "United Arab Emirates",
-          "United Kingdom",
-          "United States",
-          "Uruguay",
-          "Uzbekistan",
-          "Vanuatu",
-          "Venezuela",
-          "Vietnam",
-          "Western Sahara",
-          "Yemen",
-          "Zimbabwe"
-        ],
-        "name": "Területek"
-      }
-    },
-    {
-      "name": "Topic",
-      "value": "All topics",
-      "bind": {
-        "input": "select",
-        "options": [
-          "All topics",
-          "Agriculture",
-          "Citizen rights",
-          "Citizenship",
-          "Civil society",
-          "Communication",
-          "Consumers protection",
-          "Cooperation",
-          "EU budget",
-          "EU institutions",
-          "EU law",
-          "EU members",
-          "Economy",
-          "Education",
-          "Energy",
-          "Environment",
-          "Equality",
-          "Euro",
-          "Financial",
-          "Foreign aid",
-          "Foreign development",
-          "Foreign policy",
-          "Foreign relations",
-          "Foreign trade",
-          "Free movement",
-          "Health",
-          "Industry",
-          "Justice",
-          "Market",
-          "Monopolies",
-          "Public security",
-          "Regional policy",
-          "Research",
-          "Schengen area",
-          "Taxation",
-          "Tourism",
-          "Trade",
-          "Transport"
-        ],
-        "name": "Témák"
-      }
-    },
-    {
-      "name": "hover",
-      "value": null,
-      "on": [{
-          "events": "@circle:mouseover",
-          "update": "datum"
-        },
-        {
-          "events": "@circle:mouseout",
-          "update": "null"
-        }
-      ]
-    }, 
-    {
-      "name": "title",
-      "value": "EP allegiance votes",
-      "update": "hover ? hover.name + ' | ' + hover.party + ' | ' + hover.group : 'EP allegiance votes'"
+  "config": {
+    "view": {
+      "width": 400,
+      "height": 300
     }
-  ],
-
-  "data": [
-    {
-      "name": "tree",
-"url":"https://szekelydata.csaladen.es/ep/ep/export/json/topics.json",    
-      "transform": [
-        {"type":"filter",
-          "expr": "datum.country==Country"
-        },
-        {"type":"filter",
-          "expr": "datum.year==Year"
-        },
-        {"type":"filter",
-          "expr": "datum.allegiance==Cluster"
-        },
-        {
-          "type": "filter",
-          "expr": "datum.area==Area"
-        },
-        {
-          "type": "filter",
-          "expr": "datum.topic==Topic"
-        },
-        {
-          "type": "stratify",
-          "key": "name",
-          "parentKey": "parent"
-        },
-        {
-          "type": "tree",
-          "method":{"signal": "Layout"},
-          "size": [{"signal": "height"}, {"signal": "width - 150"}],
-          "as": ["y", "x", "depth", "children"]
-        }
-      ]
+  },
+  "data": {
+    "name": "data-1d8b272c1695e85890673993271203ab",
+    "transform": [{
+      "type": "filter",
+      "expr": "datum.Name=='KELEMEN Hunor"
+    }]
+  },
+  "mark": "bar",
+  "encoding": {
+    "color": {
+      "type": "nominal",
+      "field": "T\u00edpus",
+      "sort": {
+        "op": "mean",
+        "field": "order",
+        "order": "descending"
+      }
     },
-    {
-      "name": "links",
-      "source": "tree",
-      "transform": [
-        { "type": "treelinks" },
-        {
-          "type": "linkpath",
-          "orient": "horizontal",
-          "shape": {"signal": "Links"}
-        }
-      ]
+    "x": {
+      "type": "temporal",
+      "field": "start",
+      "title": ""
+    },
+    "x2": {
+      "type": "temporal",
+      "field": "end"
+    },
+    "y": {
+      "type": "nominal",
+      "field": "Csoportok",
+      "sort": {
+        "op": "mean",
+        "field": "order",
+        "order": "descending"
+      },
+      "title": ""
     }
-  ],
-
-  "scales": [
-    {
-      "name": "color",
-      "type": "linear",
-      "range": {"scheme": "viridis"},
-      "domain": {"data": "tree", "field": "depth"},
-      "zero": false
-    }
-  ],
-
-  "marks": [
-    {
-      "type": "path",
-      "from": {"data": "links"},
-      "encode": {
-        "update": {
-          "path": {"field": "path"},
-          "stroke": {"value": "#ccc"}
-        }
+  },
+  "title": "Nicolae-Liviu DRAGNEA - Presedintele Camerei Deputa\u0163ilor",
+  "$schema": "https://vega.github.io/schema/vega-lite/v2.6.0.json",
+  "datasets": {
+    "data-1d8b272c1695e85890673993271203ab": [{
+        "T\u00edpus": "Bizotts\u00e1g",
+        "Csoportok": "Administra\u0163ie public\u0103 \u015fi amenajarea teritoriului",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 1
+      }, {
+        "T\u00edpus": "Bizotts\u00e1g",
+        "Csoportok": "Administra\u0163ie public\u0103 \u015fi amenajarea teritoriului",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 1
+      }, {
+        "T\u00edpus": "Kamara",
+        "Csoportok": "Camera Deputa\u021bilor",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 60
+      }, {
+        "T\u00edpus": "Kamara",
+        "Csoportok": "Camera Deputa\u021bilor",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 60
+      }, {
+        "T\u00edpus": "Megye",
+        "Csoportok": "TELEORMAN",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 30
+      }, {
+        "T\u00edpus": "Megye",
+        "Csoportok": "TELEORMAN",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 30
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Federativ\u0103 a Braziliei",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Statul Israel",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Regatul Spaniei",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 1442,
+        "end": "2016-12-01T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Federativ\u0103 a Braziliei",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 1442,
+        "end": "2016-12-01T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "P\u00e1rt",
+        "Csoportok": "PSD",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 50
+      }, {
+        "T\u00edpus": "P\u00e1rt",
+        "Csoportok": "PSD",
+        "Name": "Nicolae-Liviu DRAGNEAPresedintele Camerei Deputa\u0163ilor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 50
+      },
+      {
+        "T\u00edpus": "Bizotts\u00e1g",
+        "Csoportok": "Cultur\u0103, arte, mijloace de informare \u00een mas\u0103",
+        "Name": "KELEMEN Hunor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 1
+      }, {
+        "T\u00edpus": "Bizotts\u00e1g",
+        "Csoportok": "Cultur\u0103, arte, mijloace de informare \u00een mas\u0103",
+        "Name": "KELEMEN Hunor",
+        "duration": 1455,
+        "end": "2008-12-13T00:00:00",
+        "start": "2004-12-19T00:00:00",
+        "order": 1
+      }, {
+        "T\u00edpus": "Bizotts\u00e1g",
+        "Csoportok": "Cultur\u0103, arte, mijloace de informare \u00een mas\u0103",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2012-12-20T00:00:00",
+        "start": "2008-12-19T00:00:00",
+        "order": 1
+      }, {
+        "T\u00edpus": "Bizotts\u00e1g",
+        "Csoportok": "Cultur\u0103, arte, mijloace de informare \u00een mas\u0103",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 1
+      }, {
+        "T\u00edpus": "Bizotts\u00e1g",
+        "Csoportok": "Cultur\u0103, arte, mijloace de informare \u00een mas\u0103",
+        "Name": "KELEMEN Hunor",
+        "duration": 1446,
+        "end": "2004-11-30T00:00:00",
+        "start": "2000-12-15T00:00:00",
+        "order": 1
+      }, {
+        "T\u00edpus": "Kamara",
+        "Csoportok": "Camera Deputa\u021bilor",
+        "Name": "KELEMEN Hunor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 60
+      }, {
+        "T\u00edpus": "Kamara",
+        "Csoportok": "Camera Deputa\u021bilor",
+        "Name": "KELEMEN Hunor",
+        "duration": 1455,
+        "end": "2008-12-13T00:00:00",
+        "start": "2004-12-19T00:00:00",
+        "order": 60
+      }, {
+        "T\u00edpus": "Kamara",
+        "Csoportok": "Camera Deputa\u021bilor",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2012-12-20T00:00:00",
+        "start": "2008-12-19T00:00:00",
+        "order": 60
+      }, {
+        "T\u00edpus": "Kamara",
+        "Csoportok": "Camera Deputa\u021bilor",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 60
+      }, {
+        "T\u00edpus": "Kamara",
+        "Csoportok": "Camera Deputa\u021bilor",
+        "Name": "KELEMEN Hunor",
+        "duration": 1446,
+        "end": "2004-11-30T00:00:00",
+        "start": "2000-12-15T00:00:00",
+        "order": 60
+      }, {
+        "T\u00edpus": "Megye",
+        "Csoportok": "HARGHITA",
+        "Name": "KELEMEN Hunor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 30
+      }, {
+        "T\u00edpus": "Megye",
+        "Csoportok": "HARGHITA",
+        "Name": "KELEMEN Hunor",
+        "duration": 1455,
+        "end": "2008-12-13T00:00:00",
+        "start": "2004-12-19T00:00:00",
+        "order": 30
+      }, {
+        "T\u00edpus": "Megye",
+        "Csoportok": "HARGHITA",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2012-12-20T00:00:00",
+        "start": "2008-12-19T00:00:00",
+        "order": 30
+      }, {
+        "T\u00edpus": "Megye",
+        "Csoportok": "HARGHITA",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 30
+      }, {
+        "T\u00edpus": "Megye",
+        "Csoportok": "HARGHITA",
+        "Name": "KELEMEN Hunor",
+        "duration": 1446,
+        "end": "2004-11-30T00:00:00",
+        "start": "2000-12-15T00:00:00",
+        "order": 30
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Armenia",
+        "Name": "KELEMEN Hunor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Grup parlamentar de prietenie cu Elve\u0163ia",
+        "Name": "KELEMEN Hunor",
+        "duration": 304,
+        "end": "2019-05-01T00:00:00",
+        "start": "2018-07-01T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Indonezia",
+        "Name": "KELEMEN Hunor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Portughez\u0103",
+        "Name": "KELEMEN Hunor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Regatul Maroc",
+        "Name": "KELEMEN Hunor",
+        "duration": 1455,
+        "end": "2008-12-13T00:00:00",
+        "start": "2004-12-19T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Socialist\u0103 Vietnam",
+        "Name": "KELEMEN Hunor",
+        "duration": 1455,
+        "end": "2008-12-13T00:00:00",
+        "start": "2004-12-19T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Letonia",
+        "Name": "KELEMEN Hunor",
+        "duration": 1455,
+        "end": "2008-12-13T00:00:00",
+        "start": "2004-12-19T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Peru",
+        "Name": "KELEMEN Hunor",
+        "duration": 1455,
+        "end": "2008-12-13T00:00:00",
+        "start": "2004-12-19T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Malaezia",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2012-12-20T00:00:00",
+        "start": "2008-12-19T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Malaezia",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Republica Portughez\u0103",
+        "Name": "KELEMEN Hunor",
+        "duration": 1446,
+        "end": "2004-11-30T00:00:00",
+        "start": "2000-12-15T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "Orsz\u00e1g",
+        "Csoportok": "Australia",
+        "Name": "KELEMEN Hunor",
+        "duration": 1446,
+        "end": "2004-11-30T00:00:00",
+        "start": "2000-12-15T00:00:00",
+        "order": 4
+      }, {
+        "T\u00edpus": "P\u00e1rt",
+        "Csoportok": "UDMR",
+        "Name": "KELEMEN Hunor",
+        "duration": 861,
+        "end": "2019-05-01T00:00:00",
+        "start": "2016-12-21T00:00:00",
+        "order": 50
+      }, {
+        "T\u00edpus": "P\u00e1rt",
+        "Csoportok": "UDMR",
+        "Name": "KELEMEN Hunor",
+        "duration": 1455,
+        "end": "2008-12-13T00:00:00",
+        "start": "2004-12-19T00:00:00",
+        "order": 50
+      }, {
+        "T\u00edpus": "P\u00e1rt",
+        "Csoportok": "UDMR",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2012-12-20T00:00:00",
+        "start": "2008-12-19T00:00:00",
+        "order": 50
+      }, {
+        "T\u00edpus": "P\u00e1rt",
+        "Csoportok": "UDMR",
+        "Name": "KELEMEN Hunor",
+        "duration": 1462,
+        "end": "2016-12-21T00:00:00",
+        "start": "2012-12-20T00:00:00",
+        "order": 50
+      }, {
+        "T\u00edpus": "P\u00e1rt",
+        "Csoportok": "UDMR",
+        "Name": "KELEMEN Hunor",
+        "duration": 1446,
+        "end": "2004-11-30T00:00:00",
+        "start": "2000-12-15T00:00:00",
+        "order": 50
       }
-    },
-    {
-      "type": "symbol",
-      "name":"circle",
-      "from": {"data": "tree"},
-      "encode": {
-        "enter": {
-          "size": {"value": 100},
-          "stroke": {"value": "#000"}
-        },
-        "update": {
-          "x": {"field": "x"},
-          "y": {"field": "y"},
-          "fill": {"scale": "color", "field": "depth"},
-          "cursor": {
-            "value": "pointer"
-          }
-        }
-      }
-    },
-    {
-      "type": "text",
-      "from": {"data": "tree"},
-      "encode": {
-        "enter": {
-          "text": {"field": "name"},
-          "fontSize": {"value": 14},
-          "baseline": {"value": "middle"}
-        },
-        "update": {
-          "x": {"field": "x"},
-          "y": {"field": "y"},
-          "dx": {"signal": "datum.children ? 7 : 7"},
-          "align": {"signal": "datum.children ? 'left' : 'left'"},
-          "opacity": {"signal": "datum.parent ? 0 : 1"}
-        }
-      }
-    },
-    {
-      "type": "text",
-      "from": {"data": "tree"},
-      "encode": {
-        "enter": {
-          "text": {"field": "name"},
-          "fontSize": {"signal": "datum.country=='Joint' ? 10 : 12"},
-          "baseline": {"value": "middle"}
-        },
-        "update": {
-          "x": {"field": "x"},
-          "y": {"field": "y"},
-          "dx": {"signal": "datum.children ? -7 : 7"},
-          "align": {"signal": "datum.children ? 'right' : 'left'"},
-          "opacity": {"signal": "datum.children ? 0 : 1"}
-        }
-      }
-    },
-    {
-      "type": "text",
-      "from": {"data": "tree"},
-      "encode": {
-        "enter": {
-          "fontSize": {"signal": "datum.country=='Joint' ? 10 : 12"},
-          "baseline": {"value": "middle"}
-        },
-        "update": {
-          "text": {"field": {"signal":"Label"}},
-          "x": {"field": "x"},
-          "y": {"field": "y"},
-          "dx": {"signal": "-7"},
-          "fill": {"field": {"signal":"Label=='party' ? 'partycolor' : Label=='party2' ? 'partycolor' : 'groupcolor'"}},
-          "align": {"signal": "datum.children ? 'left' : 'right'"},
-          "opacity": {"signal": "datum.children ? 0 : 1"}
-        }
-      }
-    },
-    {
-      "type": "text",
-      "interactive": false,
-      "encode": {
-        "enter": {
-          "x": {
-            "value": 700
-          },
-          "y": {
-            "value": 0
-          },
-          "fill": {
-            "value": "black"
-          },
-          "fontSize": {
-            "value": 14
-          },
-          "align": {
-            "value": "right"
-          }
-        },
-        "update": {
-          "text": {
-            "signal": "title"
-          }
-        }
-      }
-    }
-  ]
+    ]
+  }
 }
