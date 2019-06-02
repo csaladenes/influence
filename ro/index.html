@@ -9,21 +9,118 @@
   <script src="js/d3-selection.v1.min.js"></script>
   <script src="https://d3plus.org/js/d3plus-form.v0.2.full.min.js"></script>
   <script src="https://d3plus.org/js/d3plus-priestley.v0.3.full.min.js"></script>
+  <script src="https://d3plus.org/js/d3plus-timeline.v0.4.full.min.js"></script>
+  <script src="https://d3plus.org/js/d3plus-legend.v0.8.full.min.js"></script>
   <style>
     body {
       margin: 0;
       overflow: hidden;
+      font-family: sans-serif;
+    }
+
+    #mysearch {
+      left: 0px;
+      width: 540px;
+      z-index: 99;
+    }
+
+    #myInput {
+      width: 440px;
+      border: none;
+      cursor: pointer;
+      border-bottom: 2px solid #ddd;
+      text-align: center;
+      /* text-decoration: underline; */
+      font-size: 14px;
+      font-weight: bold;
+      padding: 12px 80px 12px 80px;
+    }
+
+    #myUL {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      display: none;
+      position: absolute;
+      height: 300px;
+      overflow-y: auto;
+      width: 600px;
+    }
+
+    #myUL li a {
+      border: 1px solid #ddd;
+      margin-top: -1px;
+      padding: 3px;
+      text-align: center;
+      color: #000;
+      background-color: #fff;
+      text-decoration: none;
+      display: block;
+    }
+
+    #myUL li a:hover {
+      background-color: #eee;
+    }
+
+    #left {
+      width: 50px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      cursor: pointer;
+      text-align: right;
+      font-size: 28px;
+      height: 40px;
+    }
+
+    #right1 {
+      width: 40px;
+      position: absolute;
+      top: 0px;
+      cursor: pointer;
+      left: 520px;
+      text-align: right;
+      font-size: 28px;
+      height: 40px;
+    }
+
+    #right2 {
+      width: 40px;
+      cursor: pointer;
+      position: absolute;
+      top: 0px;
+      left: 560px;
+      text-align: right;
+      font-size: 28px;
+      height: 40px;
+    }
+
+    #right2:hover,#left:hover,#right1:hover {
+      text-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
     }
   </style>
 
 </head>
 
-<body></body>
+<body>
+  <div id='mysearch' class='search'>
+    <input type="text" id="myInput" placeholder="Keresés...">
+    <ul id="myUL">
+    </ul>
+  </div>
+  <div id='left' class='search'>🔎</div>
+  <div id='right1'>◀️</div>
+  <div id='right2'>▶️️</div>
+</body>
 
 <script>
   d3.json('json/member_timelines.json').then(function (rawdata) {
 
-    var members = Array.from(new Set(rawdata.map(d => d.Simple)));
+    //console.log(rawdata);
+
+    var base_url = 'http://www.cdep.ro';
+    var legend = ['Kamara', 'Megye', 'Párt', 'Bizottság', 'Ország'];
+    var members = Array.from(new Set(rawdata.map(d => d.Name))).sort();
     var order = {
       'Kamara': 0,
       'Megye': 1,
@@ -35,16 +132,25 @@
     var viz = new d3plus.Priestley()
       .data([])
       .color("Típus")
-      .groupBy(["Típus", "Csoportok"])
+      .groupBy(["Típus", "Csoportok1"])
+      .axisConfig(
+        {
+          //domain: ['1990', '2020']
+        }
+      )
       .depth(1)
       .width(600)
       .height(400)
       .loadingMessage(false)
 
     function load(member) {
-      var ndata = rawdata.filter(function (d) {
-        return (d.Name == member)
-      })
+      console.log('Loaded', member)
+      d3.select('#myInput')
+        .property('value', member)
+      var ndata = rawdata
+        .filter(function (d) {
+          return (d.Name == member)
+        })
       ndata.sort((a, b) => order[a.Típus] - order[b.Típus]);
       viz.data(ndata)
         //.title(member)
@@ -52,9 +158,72 @@
     }
 
     load('Victor-Viorel PONTA')
-    setTimeout(function () {
-      load('KELEMEN Hunor')
-    }, 3000)
+
+    function myFunction() {
+      // Declare variables
+      var input, filter, ul, li, a, i, txtValue;
+      input = document.getElementById('myInput');
+      filter = input.value.toUpperCase();
+      ul = document.getElementById("myUL");
+      li = ul.getElementsByTagName('li');
+
+      // Loop through all list items, and hide those who don't match the search query
+      for (i = 0; i < li.length; i++) {
+        a = li[i].getElementsByTagName("a")[0];
+        txtValue = a.textContent ||
+          a.innerText;
+        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+          li[i].style.display = "";
+        } else {
+          li[i].style.display = "none";
+        }
+      }
+    }
+
+    var drop = false;
+    d3.select('#myInput')
+      .on('keyup', myFunction)
+      .on('click', function (d) {
+        drop = !drop;
+        d3.select('#myUL')
+          .style('display', (drop) ? 'block' : 'none')
+      })
+
+    d3.select('#left')
+      .on('click', function (d) {
+        drop = !drop;
+        d3.select('#myUL')
+          .style('display', (drop) ? 'block' : 'none')
+      })
+
+    // d3.select('body')
+    //   .on('click', function (d) {
+    //     drop = false;
+    //     d3.select('#myUL')
+    //       .style('display', 'none')
+    //   })
+
+    d3.select('#myUL')
+      .selectAll('li')
+      .data(members)
+      .enter()
+      .append('li')
+      .append('a')
+      .attr('href', '#')
+      .text(function (d) {
+        return d
+      })
+      .on('click', function (d) {
+        drop = false;
+        d3.select('#myUL')
+          .style('display', 'none')
+        load(d)
+        setTimeout(function () {
+          load(d)
+        }, 2000)
+      })
+
+
 
   })
 </script>
