@@ -100,6 +100,7 @@
     #right1:hover {
       text-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
     }
+
   </style>
 
 </head>
@@ -141,6 +142,7 @@
         .data([])
         .color("Típus")
         .groupBy(["Típus", "Csoportok1"])
+        // .downloadButton(true)
         .shapeConfig({
           labelConfig: {
             fontFamily: "sans-serif",
@@ -172,7 +174,7 @@
         viz.data(ndata)
           //.title(member)
           .render()
-          
+
       }
 
       load('Victor-Viorel PONTA')
