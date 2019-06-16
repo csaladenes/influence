@@ -1,0 +1,22 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<script src="//d3plus.org/js/d3.js"></script>
+<script src="//d3plus.org/js/d3plus.js"></script>
+
+<div id="viz"></div>
+
+<script>
+    d3.json('json/member_network_formatted.json', function (data) {
+        console.log(data)
+        
+        var visualization = d3plus.viz()
+            .container("#viz")
+            .type("network")
+            .data(data.nodes)
+            .edges({"value":data.edges,'size':'days'})
+            .size("size")
+            .id("id")
+            .draw()
+    })
+</script>

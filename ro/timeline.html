@@ -19,14 +19,10 @@
 
 <script>
 
-  const range = (start, stop, step = 1) =>
-    Array(Math.ceil((stop - start) / step)).fill(start).map((x, y) => x + y * step)
-
   var tl = new d3plus.Timeline()
-    .width(600)
-    .domain([1990, 2020])
-    .ticks(range(1990, 2021, 1))
-    .selection([2012,2020])
+    .width(250)
+    .domain([1990, 2016])
+    .ticks([1990,1992,1996,2000,2004,2008,2012,2016])
     .render()
 
   tl.on('end', function (d) {

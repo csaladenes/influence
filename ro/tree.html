@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <script src="js/d3-fetch.v1.min.js"></script>
+    <script src="js/d3-dsv.v1.min.js"></script>
+    <script src="js/d3-selection.v1.min.js"></script>
+    <script src="https://d3plus.org/js/d3plus-hierarchy.v0.8.full.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
+
+<body></body>
+
+<script>
+    // var cols=['🎙️ Felszólalások', '💺 Ülések','📚 Javaslatok', '🧾 Nyilatkozatok'];
+    var cols = ['🎙️ Felszólalások', '📚 Javaslatok', '🧾 Nyilatkozatok'];
+    d3.json('json/member_activity.json').then(function (activitydata) {
+        var name = 'KELEMEN Hunor'
+        var data = [];
+        Object.keys(activitydata).forEach(function (name) {
+            if (activitydata[name].length > 2) {
+                activitydata[name].forEach(function (d) {
+                    cols.forEach(function (c) {
+                        var dummy = { 'Törvényhozás': d['Session'] }
+                        if (d[c] > 0) {
+                            dummy['Érték'] = parseInt(d[c])
+                            dummy['id'] = d['Name']
+                            dummy['Típus'] = c
+                            data.push(dummy)
+                        }
+                    })
+                })
+            }
+        })
+        console.log(data)
+        new d3plus.Treemap()
+            .data(data)
+            .groupBy(["id", 'Típus'])
+            .depth(0)
+            .sum("Érték")
+            .time('Törvényhozás')
+            .legend(false)
+            .tooltip('Érték')
+            .render();
+    })
+</script>
+
+</html>

@@ -1,0 +1,21 @@
+<!doctype html>
+<meta charset="utf-8">
+
+<script src="//d3plus.org/js/d3.js"></script>
+<script src="//d3plus.org/js/d3plus.js"></script>
+
+<div id="viz"></div>
+
+<script>
+    d3.json('json/member_rings_normed.json', function (data) {
+        var visualization = d3plus.viz()
+            .container("#viz")
+            .type("rings")
+            .edges({
+                "size": "days",
+                "value": data
+            })
+            .focus("Victoria LONGHER")
+            .draw()
+    })
+</script>
