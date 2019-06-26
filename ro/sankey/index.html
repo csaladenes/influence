@@ -1,0 +1,100 @@
+<!DOCTYPE xhtml>
+<html xmlns="//www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+    <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="Székelyföldi diaszpóra - Hargita, Kovászna és Maros megye városaiból elszármazottak szerte a világban #szekelydata  #d3js @csaladenes" />
+    <meta name="keywords" content="csaladenes, d3.js, data visualization, infographic, szekelyland, székelyföld, adatvizualizáció, diaszpóra, diaspora, d3" />
+    <meta property="og:image" content="//csaladenes.egologo.ro/wp-content/uploads/2015/08/szekely_diaszpora1.jpg" />
+    <meta property="og:description" content="Székelyföldi diaszpóra - Hargita, Kovászna és Maros megye városaiból elszármazottak szerte a világban #szekelydata  #d3js @csaladenes" />
+    <meta property="og:title" content="Székelyföldi diaszpóra" />
+    <meta http-equiv="content-Type" content="text/html; charset=utf-8" />
+    <meta property="og:url" content="//csaladenes.egologo.ro/?p=773" />
+    <meta property="og:site_name" content="SZÉKELYDATA" />
+    <meta property="fb:admins" content="100943737036023614165" />
+    <link rel="shortcut icon" href="szekelydata.png" />
+    <link rel="publisher" href="https://plus.google.com/106181965793093327960" />
+    <title>Székelyföldi diaszpóra</title>
+    <style>
+        @font-face {
+            font-family: "Righteous";
+            src: url(Righteous-Regular.ttf) format("truetype");
+        }
+        
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
+            /* background: #112; */
+        }
+        
+        #chart {
+            height: 100%;
+            float: left;
+            position: absolute;
+            width: 100%;
+        }
+        
+        .node rect {
+            cursor: move;
+            fill-opacity: .9;
+            shape-rendering: crispEdges
+        }
+        
+        .node text {
+            pointer-events: none;
+        }
+        
+        a {
+            text-decoration: none;
+            color: #667;
+        }
+        
+        .link {
+            stroke: #000;
+            stroke-opacity: .3;
+        }
+        
+        .link:hover {
+            stroke-opacity: .7;
+        }
+    </style>
+    <script src="//d3js.org/d3.v3.min.js"></script>
+    <script>
+        var file = 1;
+        var sizecorrection = 0;
+
+        function checksize() {
+            if ((window.innerWidth < 600) || (window.innerHeight < 300)) {
+                alert("The recommended minimum resolution is 600 x 300.\n Yours is " + window.innerWidth + " x " +
+                    window.innerHeight + ".");
+            }
+        }
+        window.onresize = function() {
+            window.location.reload();
+        }
+    </script>
+</head>
+
+<body onload="checksize();">
+
+    <div id="content" style="opacity:1;">
+
+        <!--SANKEY DIAGRAM-->
+
+        <div id="chart" style="z-index:5;"></div>
+
+        <!---------SCRIPTS----------->
+
+        <script src="sankey.js"></script>
+        <script src="food.js"></script>
+
+    </div>
+
+</body>
+
+</html>

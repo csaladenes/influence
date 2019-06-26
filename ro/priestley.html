@@ -493,7 +493,7 @@
 
                     function pretty_drop(d) {
                         if (new Set(Object.keys(part)).has(d)) {
-                            mpart = part[d].slice(0, part[d].search('-') - 1)
+                            mpart = part[d].slice(0, part[d].search(' - '))
                         } else {
                             mpart = ''
                         }
@@ -514,7 +514,7 @@
 
                     function pretty_drop2(d) {
                         if (new Set(Object.keys(part)).has(d)) {
-                            mpart = part[d].slice(0, part[d].search('-') - 1)
+                            mpart = part[d].slice(0, part[d].search(' - '))
                         } else {
                             mpart = ''
                         }

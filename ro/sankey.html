@@ -1,0 +1,49 @@
+<!doctype html>
+<meta charset="utf-8">
+<style>
+    html,
+    body,
+    div {
+        overflow: hidden;
+    }
+</style>
+<script src="//d3plus.org/js/d3.js"></script>
+<script src="//d3plus.org/js/d3plus-network.v0.5.full.min.js"></script>
+
+<div id="viz"></div>
+
+<script>
+    d3.json('json/fusions.json', function(data) {
+        var links = [];
+        var nodes = new Set();
+        var nodes2 = [];
+        Object.keys(data).forEach(function(d) {
+            Object.keys(data[d]).forEach(function(e) {
+                var source = d.slice(0, d.search(' - '))
+                var target = e.slice(0, e.search(' - '))
+                links.push({
+                    'source': source,
+                    'target': target,
+                    'value': data[d][e]
+                })
+                nodes.add(source)
+                nodes.add(target)
+            })
+        })
+
+        nodes.forEach(function(d) {
+            nodes2.push({
+                'id': d
+            })
+        })
+
+        // console.log(nodes2, links)
+
+        new d3plus.Sankey()
+            .links(links)
+            .nodes(nodes2)
+            .label(d => d.id)
+            .loadingMessage(false)
+            .render()
+    })
+</script>
