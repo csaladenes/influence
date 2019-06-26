@@ -8632,21 +8632,23 @@
             "Megye ": "\ud83c\uddf7\ud83c\uddf4 Gorj"
         }];
 
+        console.log(viz_data)
+
         var viz_d3viz_235 = d3plus.viz()
             .container('#d3viz_235')
             .type('scatter')
             .id('index')
             .x({
-                'value': 'P�rt',
-                'label': 'P�rtv�lt�s / �v'
+                'value': 'Párt',
+                'label': 'Pártváltás / Év'
             })
             .y({
                 'value': 'Megye',
-                'label': 'Megyev�lt�s / �v'
+                'label': 'Megyeváltás / Év'
             })
-            .text('N�v')
+            .text('Név')
             .color('cvalue')
-            .tooltip(['P�rt  ', 'Megye ', 'index'])
+            .tooltip(['Párt  ', 'Megye ', 'index'])
             .legend(false)
             .size(6)
             .data(viz_data)

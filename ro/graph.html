@@ -74,7 +74,7 @@
                 var links = [];
                 var nodes = new Set();
                 var nodes2 = [];
-                var min_t = 5000;
+                var min_t = 6000;
 
                 Object.keys(data.links).forEach(function(d) {
                     Object.keys(data.links[d]).forEach(function(e) {
@@ -98,7 +98,7 @@
                     }
                     nodes2.push({
                         'id': d,
-                        'symbolSize': data.nodes[d]['pr'] * 4 + 1,
+                        'symbolSize': data.nodes[d]['pr'] ** 2 + 2,
                         'itemStyle': {
                             color: pcolors[c]
                         }
