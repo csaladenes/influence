@@ -40,62 +40,19 @@ var path = sankey.reversibleLink();
 
 d3.json("../json/fusions.json", function(error, rawdata) {
 
-    data = rawdata.part
+    data = rawdata['Megye']
 
     // console.log(rawdata, data)
-
-    pcolors = {
-        "PRM": "#0d5ca4",
-        "UDMR": "green",
-        "PDL": "darkOrange",
-        "PSD": "#dc2c24",
-        "USR": "#04abe4",
-        "PAC": "grey",
-        "FSN": "grey",
-        "PNL": "#f4d42c",
-        "PD": "darkOrange",
-        "PUNR": "grey",
-        "UNPR": "#a8190f",
-        "PDSR": "#dc2c24",
-        "PNTCD": "#04843c",
-        "FC": "#1d7aad",
-        "PP-DD": "#9966cc",
-        "PAR": "grey",
-        "PL'93": "grey",
-        "MER": "grey",
-        "PMP": "#0484cc",
-        "PC": "#96c2f2",
-        "FDSN": "grey",
-        "ALDE": "#046cab",
-        "PUR-SL": "grey",
-        "PSDR": "#dc2c24",
-        "AUR": "grey",
-        "PER": "grey",
-        "PNL-CD": "grey",
-        "PSM": "grey",
-        "FER": "grey",
-        "PDAR": "grey",
-        "PLS": "grey",
-        "PTLDR": "grey",
-        "PRNR": "grey",
-        "GDC": "grey",
-        "PDM": "grey",
-        "PNL-AT": "grey",
-        "ULB": "grey",
-        "Independent": "#444",
-        "Minorități": "#999",
-        "RMDSZ": "green"
-    }
 
     var links = [];
     var nodes = new Set();
     var nodes2 = [];
     var noded = [];
-    var min_t = 10;
+    var min_t = 1;
     Object.keys(data).forEach(function(d) {
         Object.keys(data[d]).forEach(function(e) {
-            var target = d.slice(0, d.search(' - '))
-            var source = e.slice(0, e.search(' - ')) + ' '
+            var target = d.slice(d.search(' ') + 1)
+            var source = e.slice(e.search(' ') + 1) + ' '
             if (data[d][e] > min_t) {
                 nodes.add(source)
                 nodes.add(target)
@@ -109,16 +66,15 @@ d3.json("../json/fusions.json", function(error, rawdata) {
         d = nodes[i];
         c = d.slice(d.search(' ') + 1).trim()
         nodes2.push({
-            'name': d,
-            "fill": pcolors[c]
+            'name': d
         })
         noded[d] = i
     }
 
     Object.keys(data).forEach(function(d) {
         Object.keys(data[d]).forEach(function(e) {
-            var target = d.slice(0, d.search(' - '))
-            var source = e.slice(0, e.search(' - ')) + ' '
+            var target = d.slice(d.search(' ') + 1)
+            var source = e.slice(e.search(' ') + 1) + ' '
             if (data[d][e] > min_t) {
                 links.push({
                     'source': noded[source],

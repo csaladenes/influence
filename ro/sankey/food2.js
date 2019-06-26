@@ -38,7 +38,7 @@ var svg = d3.select("#chart").append("svg").attr("width", width + margin.left + 
 var sankey = d3.sankey().nodeWidth(30).nodePadding(padding).size([width, height]);
 var path = sankey.reversibleLink();
 
-d3.json("../json/fusions.json", function(error, rawdata) {
+d3.json("../json/fusions2.json", function(error, rawdata) {
 
     data = rawdata.part
 
