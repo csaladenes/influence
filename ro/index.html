@@ -50,13 +50,21 @@
       /* border: 1px solid black; */
     }
 
+    #color {
+      width: 413px;
+      height: 25px;
+      top: 125px;
+      left: 606px;
+       /*border: 1px solid black; */
+    }
+
     #rings {
       width: 420px;
       height: 400px;
       top: 170px;
-      left: 600px;
+      left: 601px;
       /* border: 1px solid black; */
-      overflow:hidden;
+      overflow: hidden;
     }
 
     #bar {
@@ -73,19 +81,23 @@
       left: 10px;
       border: 1px solid #ddd;
     }
+
     #sessions {
       position: fixed;
       top: 15px;
       font-size: 13px;
       left: 143px;
     }
-    #sessions div{
+
+    #sessions div {
       height: 20px;
     }
-    a{
+
+    a {
       text-decoration: none;
-      color:black;
+      color: black;
     }
+
     a:hover {
       font-weight: bold;
     }
@@ -99,38 +111,10 @@
   <iframe src='rings.html' id='rings'></iframe>
   <iframe src='influence.html' id='influence'></iframe>
   <iframe src='tinfluence.html' id='tinfluence'></iframe>
+  <iframe src='color.html' id='color'></iframe>
   <img src='' id='profile'>
   <div id='sessions'>
   </div>
 </body>
-<script>
-  var refresh_bar=function(){};
-  var cols = ['🎙️ Felszólalások', '📚 Javaslatok', '🧾 Nyilatkozatok'];
-  d3.json('json/member_activity.json').then(function (activitydata) {
-    var data = [];
-    function refresh_bar(name) {
-      activitydata[name].forEach(function (d) {
-        cols.forEach(function (c) {
-          var dummy = { 'Törvényhozás': d['Session'] }
-          if (d[c] > 0) {
-            dummy['Érték'] = parseInt(d[c])
-            dummy['id'] = c
-            data.push(dummy)
-          }
-        })
-      })
-      document.getElementById('bar').contentWindow.bar
-        .data(data)
-
-        .y('Törvényhozás')
-        .x('Érték')
-        .color('id')
-        .discrete("y")
-        .legend(false)
-        .render()
-    }
-  })
-  refresh_bar('KELEMEN Hunor')
-</script>
 
 </html>

@@ -1,0 +1,33 @@
+<!doctype html>
+  <meta charset="utf-8">
+  <script src="https://d3plus.org/js/d3plus-legend.v0.8.full.min.js"></script>
+  <!-- <script src="js/colorbrewer.js"></script> -->
+
+  <style>
+    html,
+    body,
+    div {
+        overflow: hidden;
+    }
+  </style>
+
+
+<script>
+  // var colors=colorbrewer['YlOrBr'][9]//.reverse()
+  // var colors=colorbrewer['Blues'][9]//.reverse()
+  var colors=['#282f6b','#224f20','#759143', '#eace3f','#b35c1e','#b22200','#5f487c']
+  var color = new d3plus.ColorScale()
+    .data([{
+        value: 0
+      },
+      {
+        value: 1
+      }
+    ])
+    .color(colors)
+    .axisConfig({
+      labels:[]
+    })
+    .height(20)
+    .padding(0)
+</script>

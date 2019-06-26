@@ -1,0 +1,151 @@
+<!doctype html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en">
+<!--<![endif]-->
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <title>test</title>
+  <meta name="description" content="Demo for How to Build an Interactive Network Visualization.">
+  <meta name="author" content="Jim Vallandingham">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+  <link rel="stylesheet" href="css/reset.css">
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/style.css">
+
+  <script src="js/modernizr-2.0.6.min.js"></script>
+</head>
+
+<body>
+
+  <div id="container" class="container">
+
+    <div id="controls">
+
+      <div id="layouts" class="control">
+
+        <h3>Layout</h3>
+        <a id="force" class="active">Auto</a>
+        <a id="force" class="active">Fixed</a>
+        <a id="radial">Circle</a>
+      </div>
+      <div id="filters" class="control">
+        <h3>Filter</h3>
+        <a id="all" class="active">All</a>
+        <a id="popular">Connected</a>
+        <a id="obscure">Outliers</a>
+      </div>
+      <div id="sorts" class="control">
+        <h3>Sort</h3>
+        <a id="songs" class="active">Nodes</a>
+        <a id="links">Edges</a>
+      </div>
+      <div id="song_selection" class="control">
+        <h3>Layer</h3>
+        <select id="song_select">
+          <option value="call_me_al.json">1</option>
+          <option value="sledgehammer_2_rounds.json">2</option>
+          <option value="poker_face.json">3</option>
+          <option value="jolene.json">4</option>
+          <option value="helplessness_blues.json">5</option>
+          <option value="she_said.json">6</option>
+          <option value="short_skirt.json">7</option>
+        </select>
+      </div>
+      <div id="main" role="main">
+        <div id="vis"></div>
+      </div>
+    </div>
+
+
+    <script>
+      window.jQuery || document.write('<script src="js/jquery-1.7.2.min.js"><\/script>')
+    </script>
+    <script defer src="js/plugins.js"></script>
+    <script src="js/coffee-script.js"></script>
+    <script src="js/d3.v2.js"></script>
+    <script src="js/Tooltip.js"></script>
+    <script type="text/coffeescript" src="js/vis.coffee"></script>
+    <script>
+      // Change UA-XXXXX-X to be your site's ID
+      window._gaq = [
+        ['_setAccount', 'UA-865100-4'],
+        ['_trackPageview'],
+        ['_trackPageLoadTime']
+      ];
+      Modernizr.load({
+        load: ('https:' == location.protocol ? '//ssl' : '//www') + '.google-analytics.com/ga.js'
+      });
+    </script>
+    <!--[if lt IE 7 ]>
+    <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.3/CFInstall.min.js"></script>
+    <script>window.attachEvent('onload',function(){CFInstall.check({mode:'overlay'})})</script>
+  <![endif]-->
+    <script type="text/javascript">
+      var TxtType = function (el, toRotate, period) {
+        this.toRotate = toRotate;
+        this.el = el;
+        this.loopNum = 0;
+        this.period = parseInt(period, 10) || 2000;
+        this.txt = '';
+        this.tick();
+        this.isDeleting = false;
+      };
+
+      TxtType.prototype.tick = function () {
+        var i = this.loopNum % this.toRotate.length;
+        var fullTxt = this.toRotate[i];
+
+        if (this.isDeleting) {
+          this.txt = fullTxt.substring(0, this.txt.length - 1);
+        } else {
+          this.txt = fullTxt.substring(0, this.txt.length + 1);
+        }
+
+        this.el.innerHTML = '<span class="wrap">' + this.txt + '</span>';
+
+        var that = this;
+        var delta = 200 - Math.random() * 100;
+
+        if (this.isDeleting) {
+          delta /= 2;
+        }
+
+        if (!this.isDeleting && this.txt === fullTxt) {
+          delta = this.period;
+          this.isDeleting = true;
+        } else if (this.isDeleting && this.txt === '') {
+          this.isDeleting = false;
+          this.loopNum++;
+          delta = 500;
+        }
+
+        setTimeout(function () {
+          that.tick();
+        }, delta);
+      };
+
+      window.onload = function () {
+        var elements = document.getElementsByClassName('typewrite');
+        for (var i = 0; i < elements.length; i++) {
+          var toRotate = elements[i].getAttribute('data-type');
+          var period = elements[i].getAttribute('data-period');
+          if (toRotate) {
+            new TxtType(elements[i], JSON.parse(toRotate), period);
+          }
+        }
+        // INJECT CSS
+        var css = document.createElement("style");
+        css.type = "text/css";
+        css.innerHTML = ".typewrite > .wrap { border-right: 0.08em solid #fff}";
+        document.body.appendChild(css);
+      };
+    </script>
+</body>
+
+</html>
