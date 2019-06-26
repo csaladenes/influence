@@ -125,12 +125,12 @@
 </head>
 
 <body>
+    <div id='left' class='search'>🔎</div>
     <div id='mysearch' class='search'>
         <input type="text" id="myInput" placeholder="Képviselő neve, születési év, párt, megye...">
         <ul id="myUL">
         </ul>
     </div>
-    <div id='left' class='search'>🔎</div>
     <div id='right0'>◀️</div>
     <div id='right1'>▶️</div>
     <div id='right2'>🗓️</div>
@@ -628,6 +628,9 @@
                             .property('value', '')
                         d3.select('#myUL')
                             .style('display', (drop) ? 'block' : 'none')
+                        if (drop) document.getElementById('myInput').focus()
+                        else d3.select('#myInput')
+                            .property('value', pretty_drop2(x2m[x]))
                         myFunction();
                     }
 
@@ -651,7 +654,7 @@
                                     break;
                                 case 13: //enter
                                 case 27: //esc
-                                    load(x2m[x]);
+                                    show_drop(false);
                                     break;
                             }
 
@@ -659,9 +662,12 @@
                         }
                     }, false);
 
-                    d3.select(parent.document.getElementById('priestley')).style('opacity',1)
-                    d3.select(parent.document.getElementById('profile')).style('height','150px')
-                    d3.select(parent.document.getElementById('profile')).style('border','1px solid #ddd')
+                    d3.select(parent.document.getElementById('priestley')).style(
+                        'opacity', 1)
+                    d3.select(parent.document.getElementById('profile')).style('height',
+                        '150px')
+                    d3.select(parent.document.getElementById('profile')).style('border',
+                        '1px solid #ddd')
 
                 })
             })
