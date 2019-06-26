@@ -98,6 +98,7 @@
                     }
                     nodes2.push({
                         'id': d,
+                        'name': rawsimple['s2'][d] + ' | ' + c,
                         'symbolSize': data.nodes[d]['pr'] ** 2 + 2,
                         'itemStyle': {
                             color: pcolors[c]
@@ -110,7 +111,8 @@
                 myChart.hideLoading();
                 option = {
                     tooltip: {
-                        show: true
+                        show: true,
+                        formatter: '{b}'
                     },
                     animationDuration: 1500,
                     animationEasingUpdate: 'quinticInOut',
@@ -120,7 +122,13 @@
                         force: {
                             // initLayout: 'circular',
                             // gravity: 0.05
-                            layoutAnimation: false,
+                            // layoutAnimation: false,
+                        },
+                        label: {
+                            normal: {
+                                position: 'right',
+                                formatter: '{b}'
+                            }
                         },
                         draggable: false,
                         nodes: nodes2,
@@ -142,6 +150,9 @@
                         emphasis: {
                             lineStyle: {
                                 width: 10
+                            },
+                            itemStyle: {
+                                opacity: 1
                             }
                         }
                     }]
