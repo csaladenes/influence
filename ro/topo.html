@@ -14,19 +14,18 @@
 
 <body></body>
 <script>
-    var chart = new d3plus.Geomap().data([{
-        'id': 5,
-        'p': 7
-    }, {
-        'id': 3,
-        'p': 8
-    }]).colorScale("p");
-    chart.topojson("json/romania-counties.json", function(map) {
-        map['objects']['ROU_adm1']['geometries'].forEach(function(d, i) {
+    var chart = new d3plus.Geomap()
+        .data('json/megye_map.json')
+        .colorScale("Atlagos regiseg")
+        .label(d => d['Megye '] + ' | ' + d['Atlagos regiseg'])
+
+    chart.topojson("json/romania-counties.json", function (map) {
+        map['objects']['ROU_adm1']['geometries'].forEach(function (d, i) {
             d['id'] = i
         })
         return map
     })
+
     chart.render();
 </script>
 
