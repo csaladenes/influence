@@ -14,10 +14,24 @@
 
 <body></body>
 <script>
+    // var colors = ['white','#E91C62', '#282f6b']
+    // var colors = ['gold', 'darkRed']
+    var colors = ['#eee','#E91C62','#333']
     var chart = new d3plus.Geomap()
         .data('json/megye_map.json')
         .colorScale("Atlagos regiseg")
-        .label(d => d['Megye '] + ' | ' + d['Atlagos regiseg'])
+        .colorScaleConfig({
+           color:colors,
+            axisConfig: {
+                tickFormat: function (d) {
+                    return Math.round(d) + " év";
+                }
+            }
+        })
+        .tiles(false)
+        .ocean("transparent")
+        .loadingMessage(false)
+        .label(d => d['Megye '] + ' | ' + d['Atlagos regiseg'] + " év")
 
     chart.topojson("json/romania-counties.json", function (map) {
         map['objects']['ROU_adm1']['geometries'].forEach(function (d, i) {
