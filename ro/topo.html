@@ -26,8 +26,10 @@
                 tickFormat: function (d) {
                     return Math.round(d) + " év";
                 }
-            }
+            },
+            align:'top'
         })
+        .zoom(false)
         .tiles(false)
         .ocean("transparent")
         .loadingMessage(false)
