@@ -1,0 +1,35 @@
+
+        <script src='//d3plus.org/js/d3.js' type='text/javascript'></script>
+	<script src='//d3plus.org/js/d3plus.js' type='text/javascript'></script>
+        <div id='d3viz_127'></div>
+        <style>
+        div#d3viz_127{
+             width: 100%px;
+             height: 400px;
+        }
+        
+        </style>
+        <script>
+            
+        (function (){
+            
+            var viz_data = [{"Megye ": "\ud83c\uddf7\ud83c\uddf4 Arad", "Atlagos regiseg": 2391.9736842105262}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Arge\u0219", "Atlagos regiseg": 2825.408163265306}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Beszterce", "Atlagos regiseg": 2157.714285714286}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Bihar", "Atlagos regiseg": 2631.5476190476193}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Boto\u0219ani", "Atlagos regiseg": 2254.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Brass\u00f3", "Atlagos regiseg": 2443.3333333333335}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Br\u0103ila", "Atlagos regiseg": 2397.875}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Bukarest", "Atlagos regiseg": 2831.748344370861}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Buz\u0103u", "Atlagos regiseg": 2698.03125}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 B\u00e1k\u00f3", "Atlagos regiseg": 2611.6923076923076}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 C\u0103l\u0103ra\u0219i", "Atlagos regiseg": 2625.846153846154}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Diaszp\u00f3ra", "Atlagos regiseg": 2644.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Dolj", "Atlagos regiseg": 2744.64}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 D\u00e2mbovi\u021ba", "Atlagos regiseg": 2769.8333333333335}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Feh\u00e9r", "Atlagos regiseg": 2585.28}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Galac", "Atlagos regiseg": 2799.904761904762}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Giurgiu", "Atlagos regiseg": 2138.6153846153848}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Gorj", "Atlagos regiseg": 2085.3055555555557}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Hargita", "Atlagos regiseg": 3608.1052631578946}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Hunyad", "Atlagos regiseg": 2610.4594594594596}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ialomi\u021ba", "Atlagos regiseg": 2755.7619047619046}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ia\u0219i", "Atlagos regiseg": 2508.516129032258}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ilfov", "Atlagos regiseg": 2186.6666666666665}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Kolozs", "Atlagos regiseg": 2396.132075471698}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Konstanca", "Atlagos regiseg": 2666.372549019608}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Kov\u00e1szna", "Atlagos regiseg": 3046.5}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Krass\u00f3-Sz\u00f6r\u00e9ny", "Atlagos regiseg": 2394.72}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Maros", "Atlagos regiseg": 2897.1111111111113}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Mehedin\u021bi", "Atlagos regiseg": 2314.8571428571427}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 M\u00e1ramaros", "Atlagos regiseg": 2466.5135135135133}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Neam\u021b", "Atlagos regiseg": 2472.425}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Olt", "Atlagos regiseg": 2495.2894736842104}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Prahova", "Atlagos regiseg": 2675.630769230769}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Suceava", "Atlagos regiseg": 2420.8076923076924}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szatm\u00e1r", "Atlagos regiseg": 2678.3928571428573}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szeben", "Atlagos regiseg": 2405.0285714285715}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szil\u00e1gy", "Atlagos regiseg": 3882.714285714286}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Teleorman", "Atlagos regiseg": 2414.162162162162}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Temes", "Atlagos regiseg": 2570.490566037736}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Tulcea", "Atlagos regiseg": 2334.2380952380954}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Vaslui", "Atlagos regiseg": 2504.3414634146343}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Vrancea", "Atlagos regiseg": 2702.2916666666665}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 V\u00e2lcea", "Atlagos regiseg": 2294.2285714285713}];
+
+            var viz_d3viz_127 = d3plus.viz()
+                .container('#d3viz_127')
+                .type('bar')
+                .id('Megye ')
+		.x('Megye ')
+		.y('Atlagos regiseg')
+		.text('Megye ')
+		.color('Megye ')
+		.legend(false)
+		.aggs({'Atlagos regiseg': 'mean'})
+		.order({'value': 'Atlagos regiseg','sort': 'desc'})
+                .data(viz_data)
+                .draw();
+
+        })();
+        
+        </script>
+        

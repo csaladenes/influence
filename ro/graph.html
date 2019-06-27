@@ -8,7 +8,10 @@
 <body style="height: 100%; margin: 0">
     <div id="container" style="height: 100%"></div>
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> -->
-    <script src="//d3plus.org/js/d3.js"></script>
+    <!-- <script src="//d3plus.org/js/d3.js"></script> -->
+    <script src="js/d3-fetch.v1.min.js"></script>
+    <script src="js/d3-dsv.v1.min.js"></script>
+    <script src="js/d3-selection.v1.min.js"></script>
     <script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
     <script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js">
     </script>
@@ -27,138 +30,97 @@
                 var zip = new JSZip(raw_zip);
                 var rawsimple = JSON.parse(zip.files['member_simple.json']
                     .asText());
+                d3.json('json/pcolors.json').then(function(pcolors) {
 
-                pcolors = {
-                    "PRM": "#0d5ca4",
-                    "UDMR": "green",
-                    "PDL": "darkOrange",
-                    "PSD": "#dc2c24",
-                    "USR": "#04abe4",
-                    "PAC": "grey",
-                    "FSN": "grey",
-                    "PNL": "#f4d42c",
-                    "PD": "darkOrange",
-                    "PUNR": "grey",
-                    "UNPR": "#a8190f",
-                    "PDSR": "#dc2c24",
-                    "PNTCD": "#04843c",
-                    "FC": "#1d7aad",
-                    "PP-DD": "#9966cc",
-                    "PAR": "grey",
-                    "PL'93": "grey",
-                    "MER": "grey",
-                    "PMP": "#0484cc",
-                    "PC": "#96c2f2",
-                    "FDSN": "grey",
-                    "ALDE": "#046cab",
-                    "PUR-SL": "grey",
-                    "PSDR": "#dc2c24",
-                    "AUR": "grey",
-                    "PER": "grey",
-                    "PNL-CD": "grey",
-                    "PSM": "grey",
-                    "FER": "grey",
-                    "PDAR": "grey",
-                    "PLS": "grey",
-                    "PTLDR": "grey",
-                    "PRNR": "grey",
-                    "GDC": "grey",
-                    "PDM": "grey",
-                    "PNL-AT": "grey",
-                    "ULB": "grey",
-                    "Independent": "#444",
-                    "Minorități": "#999",
-                    "RMDSZ": "green"
-                }
+                    var links = [];
+                    var nodes = new Set();
+                    var nodes2 = [];
+                    var min_t = 6000;
 
-                var links = [];
-                var nodes = new Set();
-                var nodes2 = [];
-                var min_t = 6000;
-
-                Object.keys(data.links).forEach(function(d) {
-                    Object.keys(data.links[d]).forEach(function(e) {
-                        if (data.links[d][e] > min_t) {
-                            nodes.add(d)
-                            nodes.add(e)
-                            links.push({
-                                'source': d,
-                                'target': e,
-                                'value': data.links[d][e]
-                            })
-                        }
-                    })
-                })
-
-                nodes.forEach(function(d) {
-                    c = rawsimple['part'][d]
-                    if (c) {
-                        c = c.slice(c.search(' ') + 1)
-                        c = c.slice(0, c.search(' '))
-                    }
-                    nodes2.push({
-                        'id': d,
-                        'name': rawsimple['s2'][d] + ' | ' + c,
-                        'symbolSize': data.nodes[d]['pr'] ** 2 + 2,
-                        'itemStyle': {
-                            color: pcolors[c]
-                        }
-                    })
-                })
-
-                // console.log(nodes2)
-
-                myChart.hideLoading();
-                option = {
-                    tooltip: {
-                        show: true,
-                        formatter: '{b}'
-                    },
-                    animationDuration: 1500,
-                    animationEasingUpdate: 'quinticInOut',
-                    series: [{
-                        type: 'graph',
-                        layout: 'force',
-                        force: {
-                            // initLayout: 'circular',
-                            // gravity: 0.05
-                            // layoutAnimation: false,
-                        },
-                        label: {
-                            normal: {
-                                position: 'right',
-                                formatter: '{b}'
+                    Object.keys(data.links).forEach(function(d) {
+                        Object.keys(data.links[d]).forEach(function(e) {
+                            if (data.links[d][e] > min_t) {
+                                nodes.add(d)
+                                nodes.add(e)
+                                links.push({
+                                    'source': d,
+                                    'target': e,
+                                    'value': data.links[d][e]
+                                })
                             }
-                        },
-                        draggable: false,
-                        nodes: nodes2,
-                        links: links,
-                        roam: true,
-                        focusNodeAdjacency: true,
-                        itemStyle: {
-                            normal: {
-                                borderColor: '#fff',
-                                borderWidth: 1,
-                                shadowBlur: 10,
-                                shadowColor: 'rgba(0, 0, 0, 0.3)'
+                        })
+                    })
+
+                    nodes.forEach(function(d) {
+                        c = rawsimple['part'][d]
+                        if (c) {
+                            c = c.slice(c.search(' ') + 1)
+                            c = c.slice(0, c.search(' '))
+                        }
+                        nodes2.push({
+                            'id': d,
+                            'name': rawsimple['s2'][d] + ' | ' + c,
+                            'symbolSize': data.nodes[d]['pr'] ** 2 + 2,
+                            'itemStyle': {
+                                color: pcolors[c]
                             }
+                        })
+                    })
+
+                    // console.log(nodes2)
+
+                    myChart.hideLoading();
+                    option = {
+                        tooltip: {
+                            show: true,
+                            formatter: '{b}'
                         },
-                        lineStyle: {
-                            color: 'source',
-                            curveness: 0.3
-                        },
-                        emphasis: {
-                            lineStyle: {
-                                width: 10
+                        animationDuration: 1500,
+                        animationEasingUpdate: 'quinticInOut',
+                        series: [{
+                            type: 'graph',
+                            layout: 'force',
+                            force: {
+                                // initLayout: 'circular',
+                                // gravity: 0.05
+                                // layoutAnimation: false,
                             },
+                            label: {
+                                normal: {
+                                    position: 'right',
+                                    formatter: '{b}'
+                                }
+                            },
+                            draggable: false,
+                            nodes: nodes2,
+                            links: links,
+                            roam: true,
+                            focusNodeAdjacency: true,
                             itemStyle: {
-                                opacity: 1
+                                normal: {
+                                    borderColor: '#fff',
+                                    borderWidth: 1,
+                                    shadowBlur: 10,
+                                    shadowColor: 'rgba(0, 0, 0, 0.3)'
+                                }
+                            },
+                            lineStyle: {
+                                color: 'source',
+                                curveness: 0.3
+                            },
+                            emphasis: {
+                                lineStyle: {
+                                    width: 10
+                                },
+                                itemStyle: {
+                                    opacity: 1
+                                }
                             }
-                        }
-                    }]
-                };
+                        }]
+                    };
 
-                myChart.setOption(option);
+                    myChart.setOption(option);
+                })
             })
         })
 

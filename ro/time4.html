@@ -1,0 +1,35 @@
+
+        <script src='//d3plus.org/js/d3.js' type='text/javascript'></script>
+	<script src='//d3plus.org/js/d3plus.js' type='text/javascript'></script>
+        <div id='d3viz_129'></div>
+        <style>
+        div#d3viz_129{
+             width: 100%px;
+             height: 400px;
+        }
+        
+        </style>
+        <script>
+            
+        (function (){
+            
+            var viz_data = [{"Megye ": "\ud83c\uddf7\ud83c\uddf4 Arad", "Atlagos eletkor": 62.39045246990453}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Arge\u0219", "Atlagos eletkor": 65.20216629499839}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Beszterce", "Atlagos eletkor": 61.84574151280524}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Bihar", "Atlagos eletkor": 62.539503887449094}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Boto\u0219ani", "Atlagos eletkor": 64.1799086757991}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Brass\u00f3", "Atlagos eletkor": 65.63620352250489}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Br\u0103ila", "Atlagos eletkor": 65.17981735159817}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Bukarest", "Atlagos eletkor": 65.2700265794316}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Buz\u0103u", "Atlagos eletkor": 65.43808219178081}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 B\u00e1k\u00f3", "Atlagos eletkor": 65.31178082191781}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 C\u0103l\u0103ra\u0219i", "Atlagos eletkor": 64.31351995235259}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Diaszp\u00f3ra", "Atlagos eletkor": 58.57960426179605}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Dolj", "Atlagos eletkor": 66.32625570776256}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 D\u00e2mbovi\u021ba", "Atlagos eletkor": 64.77692862292719}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Feh\u00e9r", "Atlagos eletkor": 66.58030006523157}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Galac", "Atlagos eletkor": 66.59492148346142}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Giurgiu", "Atlagos eletkor": 65.47397260273972}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Gorj", "Atlagos eletkor": 65.39351598173515}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Hargita", "Atlagos eletkor": 61.29024979854956}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Hunyad", "Atlagos eletkor": 65.46648401826482}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ialomi\u021ba", "Atlagos eletkor": 62.79954337899543}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ia\u0219i", "Atlagos eletkor": 63.86549495993796}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ilfov", "Atlagos eletkor": 62.63287671232877}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Kolozs", "Atlagos eletkor": 64.25460772104607}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Konstanca", "Atlagos eletkor": 61.00676544590437}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Kov\u00e1szna", "Atlagos eletkor": 59.74459665144596}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Krass\u00f3-Sz\u00f6r\u00e9ny", "Atlagos eletkor": 61.54585779517288}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Maros", "Atlagos eletkor": 66.39842258198425}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Mehedin\u021bi", "Atlagos eletkor": 64.6167267483778}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 M\u00e1ramaros", "Atlagos eletkor": 61.95840597758408}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Neam\u021b", "Atlagos eletkor": 63.45020362828582}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Olt", "Atlagos eletkor": 65.8024266144814}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Prahova", "Atlagos eletkor": 62.1926484018265}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Suceava", "Atlagos eletkor": 67.46779364616731}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szatm\u00e1r", "Atlagos eletkor": 61.285159817351605}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szeben", "Atlagos eletkor": 65.54892367906066}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szil\u00e1gy", "Atlagos eletkor": 65.85521601685984}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Teleorman", "Atlagos eletkor": 61.64066780821917}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Temes", "Atlagos eletkor": 65.33312831982106}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Tulcea", "Atlagos eletkor": 63.69246575342466}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Vaslui", "Atlagos eletkor": 62.1683409436834}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Vrancea", "Atlagos eletkor": 60.228111971411565}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 V\u00e2lcea", "Atlagos eletkor": 68.71984091913389}];
+
+            var viz_d3viz_129 = d3plus.viz()
+                .container('#d3viz_129')
+                .type('bar')
+                .id('Megye ')
+		.x('Megye ')
+		.y('Atlagos eletkor')
+		.text('Megye ')
+		.color('Megye ')
+		.legend(false)
+		.aggs({'Atlagos eletkor': 'mean'})
+		.order({'value': 'Atlagos eletkor','sort': 'desc'})
+                .data(viz_data)
+                .draw();
+
+        })();
+        
+        </script>
+        
