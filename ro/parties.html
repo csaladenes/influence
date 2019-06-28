@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <script src="https://d3plus.org/js/d3plus-priestley.v0.3.full.min.js"></script>
+
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
+
+<body></body>
+
+<script>
+
+    new d3plus.Priestley()
+        .data('json/part_timelines.json')
+        .groupBy(["label", "id"])
+        .depth(1)
+        .color("cvalue")
+        .legend(false)
+        .shapeConfig({
+            labelConfig: {
+                fontFamily: "sans-serif",
+                fontMin: 14
+            }
+        })
+        .axisConfig({
+            domain: ['1990', '2020']
+        })
+        .render();
+
+</script>
+
+</html>
