@@ -1,0 +1,35 @@
+
+        <script src='//d3plus.org/js/d3.js' type='text/javascript'></script>
+	<script src='//d3plus.org/js/d3plus.js' type='text/javascript'></script>
+        <div id='d3viz_16'></div>
+        <style>
+        div#d3viz_16{
+             width: 100%px;
+             height: 100%px;
+        }
+        
+        </style>
+        <script>
+            
+        (function (){
+            
+            var viz_data = [{"Megye ": "\ud83c\uddf7\ud83c\uddf4 Arad", "Atlagos regiseg": 6.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Arge\u0219", "Atlagos regiseg": 7.7}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Beszterce", "Atlagos regiseg": 5.9}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Bihar", "Atlagos regiseg": 7.2}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Boto\u0219ani", "Atlagos regiseg": 6.2}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Brass\u00f3", "Atlagos regiseg": 6.7}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Br\u0103ila", "Atlagos regiseg": 6.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Bukarest", "Atlagos regiseg": 7.8}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Buz\u0103u", "Atlagos regiseg": 7.4}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 B\u00e1k\u00f3", "Atlagos regiseg": 7.2}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 C\u0103l\u0103ra\u0219i", "Atlagos regiseg": 7.2}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Diaszp\u00f3ra", "Atlagos regiseg": 7.2}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Dolj", "Atlagos regiseg": 7.5}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 D\u00e2mbovi\u021ba", "Atlagos regiseg": 7.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Feh\u00e9r", "Atlagos regiseg": 7.1}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Galac", "Atlagos regiseg": 7.7}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Giurgiu", "Atlagos regiseg": 5.9}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Gorj", "Atlagos regiseg": 5.7}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Hargita", "Atlagos regiseg": 9.9}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Hunyad", "Atlagos regiseg": 7.2}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ialomi\u021ba", "Atlagos regiseg": 7.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ia\u0219i", "Atlagos regiseg": 6.9}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ilfov", "Atlagos regiseg": 6.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Kolozs", "Atlagos regiseg": 6.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Konstanca", "Atlagos regiseg": 7.3}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Kov\u00e1szna", "Atlagos regiseg": 8.3}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Krass\u00f3-Sz\u00f6r\u00e9ny", "Atlagos regiseg": 6.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Maros", "Atlagos regiseg": 7.9}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Mehedin\u021bi", "Atlagos regiseg": 6.3}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 M\u00e1ramaros", "Atlagos regiseg": 6.8}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Neam\u021b", "Atlagos regiseg": 6.8}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Olt", "Atlagos regiseg": 6.8}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Prahova", "Atlagos regiseg": 7.3}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Suceava", "Atlagos regiseg": 6.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szatm\u00e1r", "Atlagos regiseg": 7.3}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szeben", "Atlagos regiseg": 6.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szil\u00e1gy", "Atlagos regiseg": 10.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Teleorman", "Atlagos regiseg": 6.6}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Temes", "Atlagos regiseg": 7.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Tulcea", "Atlagos regiseg": 6.4}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Vaslui", "Atlagos regiseg": 6.9}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Vrancea", "Atlagos regiseg": 7.4}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 V\u00e2lcea", "Atlagos regiseg": 6.3}];
+
+            var viz_d3viz_16 = d3plus.viz()
+                .container('#d3viz_16')
+                .type('bar')
+                .id('Megye ')
+		.x('Megye ')
+		.y({'value': 'Atlagos regiseg','label': 'Atlagos regiseg (ev)'})
+		.text(' ')
+		.color('Megye ')
+		.legend(false)
+		.aggs({'Atlagos regiseg': 'mean'})
+		.order({'value': 'Atlagos regiseg','sort': 'desc'})
+                .data(viz_data)
+                .draw();
+
+        })();
+        
+        </script>
+        

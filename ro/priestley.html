@@ -25,13 +25,13 @@
             overflow: hidden;
             font-family: sans-serif;
         }
-        
+
         #mysearch {
             left: 0px;
             width: 540px;
             z-index: 99;
         }
-        
+
         #myInput {
             width: 440px;
             border: none;
@@ -43,7 +43,7 @@
             font-weight: bold;
             padding: 12px 90px 12px 70px;
         }
-        
+
         #myUL {
             list-style-type: none;
             padding: 0;
@@ -54,7 +54,7 @@
             overflow-y: auto;
             width: 600px;
         }
-        
+
         #myUL li a {
             border: 1px solid #ddd;
             margin-top: -1px;
@@ -65,11 +65,11 @@
             text-decoration: none;
             display: block;
         }
-        
+
         #myUL li a:hover {
             background-color: #eee;
         }
-        
+
         #left {
             width: 50px;
             position: absolute;
@@ -80,7 +80,7 @@
             font-size: 28px;
             height: 40px;
         }
-        
+
         #right1 {
             width: 40px;
             position: absolute;
@@ -91,7 +91,7 @@
             font-size: 28px;
             height: 40px;
         }
-        
+
         #right2 {
             width: 40px;
             cursor: pointer;
@@ -102,7 +102,7 @@
             font-size: 28px;
             height: 40px;
         }
-        
+
         #right0 {
             width: 40px;
             cursor: pointer;
@@ -113,7 +113,7 @@
             font-size: 28px;
             height: 40px;
         }
-        
+
         #right2:hover,
         #left:hover,
         #right0:hover,
@@ -139,16 +139,16 @@
 <script>
     var par = d3.select(parent.document);
     var cols = ['🎙️ Felszólalások', '📚 Javaslatok', '🧾 Nyilatkozatok'];
-    JSZipUtils.getBinaryContent('json/plotter_name.zip', function(err, raw_zip) {
+    JSZipUtils.getBinaryContent('json/plotter_name.zip', function (err, raw_zip) {
         var zip = new JSZip(raw_zip);
         var network = JSON.parse(zip.files['plotter_name.json'].asText());
-        JSZipUtils.getBinaryContent('json/member_activity.zip', function(err, raw_zip) {
+        JSZipUtils.getBinaryContent('json/member_activity.zip', function (err, raw_zip) {
             var zip = new JSZip(raw_zip);
             var activitydata = JSON.parse(zip.files['member_activity.json'].asText());
-            JSZipUtils.getBinaryContent('json/member_timelines.zip', function(err, raw_zip) {
+            JSZipUtils.getBinaryContent('json/member_timelines.zip', function (err, raw_zip) {
                 var zip = new JSZip(raw_zip);
                 var rawdata = JSON.parse(zip.files['member_timelines.json'].asText());
-                JSZipUtils.getBinaryContent('json/member_simple.zip', function(err, raw_zip) {
+                JSZipUtils.getBinaryContent('json/member_simple.zip', function (err, raw_zip) {
                     var zip = new JSZip(raw_zip);
                     var rawsimple = JSON.parse(zip.files['member_simple.json']
                         .asText());
@@ -163,14 +163,14 @@
                     var max_influence = 0;
                     var sort_key = 'pr';
 
-                    Object.keys(network.nodes).forEach(function(d, i) {
+                    Object.keys(network.nodes).forEach(function (d, i) {
                         dummy = network.nodes[d]
                         dummy['id'] = d
                         if (d.indexOf('|') > 0) {
                             members.push(dummy)
                             max_influence = Math.ceil(Math.max(max_influence,
                                 dummy[
-                                    sort_key] || 0))
+                                sort_key] || 0))
                         }
                     })
 
@@ -180,7 +180,7 @@
                     var m2x = {};
                     var x2m = {};
 
-                    members.forEach(function(d, i) {
+                    members.forEach(function (d, i) {
                         m2x[d.id] = i;
                         x2m[i] = d.id;
                     })
@@ -237,8 +237,8 @@
 
                     function get_bar_data(name) {
                         var data = [];
-                        activitydata[name].forEach(function(d) {
-                            cols.forEach(function(c) {
+                        activitydata[name].forEach(function (d) {
+                            cols.forEach(function (c) {
                                 var dummy = {
                                     'Törvényhozás': d[
                                         'Session']
@@ -256,14 +256,14 @@
 
                     function get_links(name) {
                         var data = [];
-                        activitydata[name].forEach(function(d) {
+                        activitydata[name].forEach(function (d) {
                             data[d['Session']] = d['Link']
                         })
                         var sdata = '<div>Törvényhozás</div>';
                         var kd = Object.keys(data).sort().reverse()
-                        kd.forEach(function(d) {
+                        kd.forEach(function (d) {
                             sdata = sdata + '<div><a href="' + data[
-                                    d] +
+                                d] +
                                 '" target="_blank">👉 ' + d +
                                 '</a></div>'
                         })
@@ -315,7 +315,7 @@
                             'x': '1998',
                             'y': 3
                         }];
-                        relative_influence.forEach(function(d) {
+                        relative_influence.forEach(function (d) {
                             d['x'] = new Date(d['x'])
                         })
                         parent.document.getElementById('tinfluence')
@@ -334,8 +334,8 @@
                             .xConfig({
                                 domain: extent ? ['1990', '2020'] : [
                                     minmax[0]
-                                    .getFullYear(), minmax[1]
-                                    .getFullYear()
+                                        .getFullYear(), minmax[1]
+                                            .getFullYear()
                                 ]
                             })
                             .time('x')
@@ -354,7 +354,7 @@
                             ]
                         } else {
                             var items = Object.keys(network[member]).map(
-                                function(
+                                function (
                                     key) {
                                     return {
                                         'source': member,
@@ -365,13 +365,13 @@
                             items.sort((a, b) => b.value - a.value);
                             items = items.slice(0, nodes)
                             var items2 = items
-                            items.forEach(function(d) {
+                            items.forEach(function (d) {
                                 items2 = items2.concat(
                                     network_filter(network,
                                         d['target'], nodeset
-                                        .add(member), Math
-                                        .floor(
-                                            nodes / power),
+                                            .add(member), Math
+                                                .floor(
+                                                    nodes / power),
                                         depth - 1, power)[0])
                             })
                             return [items2, nodeset]
@@ -389,7 +389,7 @@
                             nodes = links_nodes[1];
 
                             var nodes2 = [];
-                            nodes.forEach(function(d) {
+                            nodes.forEach(function (d) {
                                 nodes2.push({
                                     'id': d,
                                     'value': network.nodes[d][sort_key]
@@ -413,7 +413,7 @@
 
                         var links2 = [];
                         links3 = new Set()
-                        links.forEach(function(d) {
+                        links.forEach(function (d) {
                             var id = JSON.stringify(Array.from(
                                 new Set(d['source'] + d[
                                     'target'])).sort())
@@ -423,6 +423,8 @@
                             }
                         })
 
+                        // console.log(nodes2)
+
                         parent.document.getElementById('rings')
                             .contentWindow.rings
                             .links(links2)
@@ -430,6 +432,10 @@
                             .linkSizeMin(2)
                             .data(nodes2)
                             .color(d => color(d.value))
+                            // .colorScale(d=>d["value"])
+                            // .colorScaleConfig({
+                            //     color: ['red','black']
+                            // })
                             .on('click.shape', d => load(d.id))
                             .label(d => simple2[d.id] + ((new Set(Object.keys(deaths))
                                 .has(d.id)) ? ' †' : ''))
@@ -445,31 +451,31 @@
                             console.log('Loaded member', x, member)
 
                             var ndata = rawdata
-                                .filter(function(d) {
+                                .filter(function (d) {
                                     return (d['Simple'] == member)
                                 })
                             ndata.sort((a, b) => order[a.Típus] - order[b
                                 .Típus]);
                             minmax = [new Date(Math.min.apply(null, ndata.map(
-                                    a =>
+                                a =>
                                     new Date(a.start)))),
-                                new Date(Math.max.apply(null, ndata.map(a =>
-                                    new Date(a
-                                        .end))))
+                            new Date(Math.max.apply(null, ndata.map(a =>
+                                new Date(a
+                                    .end))))
                             ];
 
                             //update picture
                             par.select('#profile')
                                 .attr('src', photo[member])
-                                //update bar
+                            //update bar
                             load_bar(member)
-                                //update ring
-                                // load_rings('')
+                            //update ring
+                            // load_rings('')
                             load_rings(member)
-                                //update influence
+                            //update influence
                             load_influence(member)
-                                //update tinfluence
-                                // load_tinfluence(member)
+                            //update tinfluence
+                            // load_tinfluence(member)
 
                             par.select('#sessions')
                                 .html(get_links(member))
@@ -489,7 +495,7 @@
                     }
 
                     load(simple['Victor-Viorel PONTA'])
-                        // load('Ioan CHELARU')
+                    // load('Ioan CHELARU')
 
                     function pretty_drop(d) {
                         if (new Set(Object.keys(part)).has(d)) {
@@ -547,7 +553,7 @@
                                 a.innerText;
                             valValue = a.getAttribute("value")
                             if ((txtValue.toUpperCase().indexOf(filter) > -
-                                    1) || (
+                                1) || (
                                     valValue.toUpperCase().indexOf(
                                         filter) > -1
                                 )) {
@@ -561,27 +567,27 @@
                     var drop = false;
                     d3.select('#myInput')
                         .on('keyup', myFunction)
-                        .on('click', function(d) {
+                        .on('click', function (d) {
                             show_drop(!drop)
                         })
 
                     d3.select('#left')
-                        .on('click', function(d) {
+                        .on('click', function (d) {
                             show_drop(!drop)
                         })
 
                     d3.select('#right1')
-                        .on('click', function(d) {
+                        .on('click', function (d) {
                             load(x2m[x + 1]);
                         })
 
                     d3.select('#right0')
-                        .on('click', function(d) {
+                        .on('click', function (d) {
                             load(x2m[Math.max(0, x - 1)]);
                         })
 
                     d3.select('#right2')
-                        .on('click', function(d) {
+                        .on('click', function (d) {
                             extent = !extent
                             load(x2m[x]);
                         })
@@ -601,15 +607,15 @@
                         .append('span')
                         .append('a')
                         .attr('href', '#')
-                        .html(function(d) {
+                        .html(function (d) {
                             return pretty_drop(d)
                         })
-                        .attr('value', function(d) {
+                        .attr('value', function (d) {
                             return d
                         })
-                        .on('click', function(d) {
+                        .on('click', function (d) {
                             load(d)
-                            setTimeout(function() {
+                            setTimeout(function () {
                                 load(d)
                             }, 2000)
                         })
@@ -634,11 +640,11 @@
                         myFunction();
                     }
 
-                    document.addEventListener("keydown", function(event) {
+                    document.addEventListener("keydown", function (event) {
                         if ((event.keyCode >= 33 && event.keyCode <=
-                                34) || (
+                            34) || (
                                 event.keyCode >= 37 && event
-                                .keyCode <= 40) ||
+                                    .keyCode <= 40) ||
                             (event.keyCode == 13) || (
                                 event.keyCode == 27)) {
                             switch (event.keyCode) {

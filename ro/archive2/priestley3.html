@@ -1,0 +1,678 @@
+<!doctype html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <script src="js/d3-fetch.v1.min.js"></script>
+    <script src="js/d3-dsv.v1.min.js"></script>
+    <script src="js/d3-selection.v1.min.js"></script>
+    <script src="js/jszip.min.js"></script>
+    <script src="js/JSZipUtils.min.js"></script>
+    <!-- <script src="js/d3plus.v2.js"></script> -->
+    <!-- <script src="https://d3js.org/d3-color.v1.min.js"></script>
+    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script> -->
+    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
+    <!-- <script src="https://d3plus.org/js/d3plus-form.v0.2.full.min.js"></script> -->
+    <script src="https://d3plus.org/js/d3plus-priestley.v0.3.full.min.js"></script>
+    <!-- <script src="https://d3plus.org/js/d3plus.v2.0.0-alpha.19.full.min.js"></script> -->
+    <!-- <script src="https://d3plus.org/js/d3plus-timeline.v0.4.full.min.js"></script> -->
+    <!-- <script src="https://d3plus.org/js/d3plus-legend.v0.8.full.min.js"></script> -->
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: sans-serif;
+        }
+        
+        #mysearch {
+            left: 0px;
+            width: 540px;
+            z-index: 99;
+        }
+        
+        #myInput {
+            width: 440px;
+            border: none;
+            cursor: pointer;
+            border-bottom: 2px solid #ddd;
+            text-align: left;
+            /* text-decoration: underline; */
+            font-size: 14px;
+            font-weight: bold;
+            padding: 12px 90px 12px 70px;
+        }
+        
+        #myUL {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            position: absolute;
+            height: 300px;
+            overflow-y: auto;
+            width: 600px;
+        }
+        
+        #myUL li a {
+            border: 1px solid #ddd;
+            margin-top: -1px;
+            padding: 3px;
+            text-align: left;
+            color: #000;
+            background-color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+        
+        #myUL li a:hover {
+            background-color: #eee;
+        }
+        
+        #left {
+            width: 50px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            cursor: pointer;
+            text-align: right;
+            font-size: 28px;
+            height: 40px;
+        }
+        
+        #right1 {
+            width: 40px;
+            position: absolute;
+            top: 0px;
+            cursor: pointer;
+            left: 520px;
+            text-align: right;
+            font-size: 28px;
+            height: 40px;
+        }
+        
+        #right2 {
+            width: 40px;
+            cursor: pointer;
+            position: absolute;
+            top: 0px;
+            left: 560px;
+            text-align: right;
+            font-size: 28px;
+            height: 40px;
+        }
+        
+        #right0 {
+            width: 40px;
+            cursor: pointer;
+            position: absolute;
+            top: 0px;
+            left: 480px;
+            text-align: right;
+            font-size: 28px;
+            height: 40px;
+        }
+        
+        #right2:hover,
+        #left:hover,
+        #right0:hover,
+        #right1:hover {
+            text-shadow: 0 2px 2px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id='left' class='search'>🔎</div>
+    <div id='mysearch' class='search'>
+        <input type="text" id="myInput" placeholder="Képviselő neve, születési év, párt, megye...">
+        <ul id="myUL">
+        </ul>
+    </div>
+    <div id='right0'>◀️</div>
+    <div id='right1'>▶️</div>
+    <div id='right2'>🗓️</div>
+</body>
+
+<script>
+    var par = d3.select(parent.document);
+    var cols = ['🎙️ Felszólalások', '📚 Javaslatok', '🧾 Nyilatkozatok'];
+    JSZipUtils.getBinaryContent('json/plotter_name.zip', function(err, raw_zip) {
+        var zip = new JSZip(raw_zip);
+        var network = JSON.parse(zip.files['plotter_name.json'].asText());
+        JSZipUtils.getBinaryContent('json/member_activity.zip', function(err, raw_zip) {
+            var zip = new JSZip(raw_zip);
+            var activitydata = JSON.parse(zip.files['member_activity.json'].asText());
+            JSZipUtils.getBinaryContent('json/member_timelines.zip', function(err, raw_zip) {
+                var zip = new JSZip(raw_zip);
+                var rawdata = JSON.parse(zip.files['member_timelines.json'].asText());
+                JSZipUtils.getBinaryContent('json/member_simple.zip', function(err, raw_zip) {
+                    var zip = new JSZip(raw_zip);
+                    var rawsimple = JSON.parse(zip.files['member_simple.json']
+                        .asText());
+
+                    var simple = rawsimple['s'];
+                    var simple2 = rawsimple['s2'];
+                    var photo = rawsimple['photo'];
+                    var part = rawsimple['part'];
+                    var megye = rawsimple['megye'];
+                    var deaths = rawsimple['deaths'];
+                    var members = new Array();
+                    var max_influence = 0;
+                    var sort_key = 'pr';
+
+                    Object.keys(network.nodes).forEach(function(d, i) {
+                        dummy = network.nodes[d]
+                        dummy['id'] = d
+                        if (d.indexOf('|') > 0) {
+                            members.push(dummy)
+                            max_influence = Math.ceil(Math.max(max_influence,
+                                dummy[
+                                    sort_key] || 0))
+                        }
+                    })
+
+                    members.sort((a, b) => a['id'].localeCompare(b['id']))
+                    var m2x = {};
+                    var x2m = {};
+
+                    members.forEach(function(d, i) {
+                        m2x[d.id] = i;
+                        x2m[i] = d.id;
+                    })
+
+                    // console.log(members)
+
+                    console.log('Loaded', members.length, 'members')
+                    console.log('Loaded network:', Object.keys(network.nodes).length,
+                        'nodes, out of which', Object.keys(network.links).length,
+                        'have links..')
+
+                    var legend = ['Kamara', 'Megye', 'Párt', 'Bizottság',
+                        'Ország'
+                    ];
+
+                    var x = 0;
+                    var extent = false;
+                    var minmax = ['1990', '2020'];
+
+                    var order = {
+                        'Kamara': 0,
+                        'Megye': 1,
+                        'Párt': 2,
+                        'Ország': 4,
+                        'Bizottság': 3
+                    }
+
+                    var colors = parent.document.getElementById('color')
+                        .contentWindow.color.color()
+
+                    function color(c) {
+                        return colors[Math.round((c / (max_influence)) * colors.length +
+                            1) - 1]
+                    }
+
+                    parent.document.getElementById('color')
+                        .contentWindow.color
+                        .render()
+
+                    var viz = new d3plus.Priestley()
+                        .data([])
+                        .color("Típus")
+                        .groupBy(["Típus", "Csoportok1"])
+                        // .downloadButton(true)
+                        .shapeConfig({
+                            labelConfig: {
+                                fontFamily: "sans-serif",
+                                fontMin: 14
+                            }
+                        })
+                        .legend(false)
+                        .depth(1)
+                        .width(600)
+                        .height(350)
+                        .loadingMessage(false)
+
+                    function get_bar_data(name) {
+                        var data = [];
+                        activitydata[name].forEach(function(d) {
+                            cols.forEach(function(c) {
+                                var dummy = {
+                                    'Törvényhozás': d[
+                                        'Session']
+                                }
+                                if (d[c] > -1) {
+                                    dummy['Érték'] =
+                                        parseInt(d[c])
+                                    dummy['id'] = c
+                                    data.push(dummy)
+                                }
+                            })
+                        })
+                        return data
+                    }
+
+                    function get_links(name) {
+                        var data = [];
+                        activitydata[name].forEach(function(d) {
+                            data[d['Session']] = d['Link']
+                        })
+                        var sdata = '<div>Törvényhozás</div>';
+                        var kd = Object.keys(data).sort().reverse()
+                        kd.forEach(function(d) {
+                            sdata = sdata + '<div><a href="' + data[
+                                    d] +
+                                '" target="_blank">👉 ' + d +
+                                '</a></div>'
+                        })
+                        return sdata
+                    }
+
+                    function load_bar(member) {
+                        parent.document.getElementById('bar').contentWindow
+                            .bar
+                            .data(get_bar_data(member))
+                            .y('Törvényhozás')
+                            .x('Érték')
+                            .color('id')
+                            .discrete("y")
+                            .legend(false)
+                            .loadingMessage(false)
+                            .render()
+                    }
+
+                    function load_influence(member) {
+                        parent.document.getElementById('influence')
+                            .contentWindow.bar
+                            .data([{
+                                'id': '',
+                                'value': network.nodes[member][sort_key]
+                            }])
+                            .y('id')
+                            .x('value')
+                            .shapeConfig({
+                                fill: (d => color(d.value))
+                            })
+                            .label((x + 1) + '. 👥 Abszolút Befolyás')
+                            .discrete("y")
+                            .legend(false)
+                            .tooltip(false)
+                            .loadingMessage(false)
+                            .xConfig({
+                                domain: [0, max_influence]
+                            })
+                            .render()
+                    }
+
+                    function load_tinfluence(member) {
+                        //var relative_influence = rings.nodes_t[member];
+                        var relative_influence = [{
+                            'x': '1990',
+                            'y': 2
+                        }, {
+                            'x': '1998',
+                            'y': 3
+                        }];
+                        relative_influence.forEach(function(d) {
+                            d['x'] = new Date(d['x'])
+                        })
+                        parent.document.getElementById('tinfluence')
+                            .contentWindow.line
+                            .data(relative_influence)
+                            .shapeConfig({
+                                Line: {
+                                    curve: "Basis",
+                                    strokeWidth: 2,
+                                    // stroke: color(rings.nodes_abs[member]['Befolyás'])
+                                }
+                            })
+                            .yConfig({
+                                domain: [0.4, 1.6]
+                            })
+                            .xConfig({
+                                domain: extent ? ['1990', '2020'] : [
+                                    minmax[0]
+                                    .getFullYear(), minmax[1]
+                                    .getFullYear()
+                                ]
+                            })
+                            .time('x')
+                            .loadingMessage(false)
+                            .timeline(false)
+                            .render()
+                    }
+
+                    function network_filter(network, member, nodeset, nodes,
+                        depth,
+                        power) {
+                        if (depth == 0) {
+                            return [
+                                [],
+                                []
+                            ]
+                        } else {
+                            var items = Object.keys(network[member]).map(
+                                function(
+                                    key) {
+                                    return {
+                                        'source': member,
+                                        'target': key,
+                                        'value': network[member][key]
+                                    };
+                                });
+                            items.sort((a, b) => b.value - a.value);
+                            items = items.slice(0, nodes)
+                            var items2 = items
+                            items.forEach(function(d) {
+                                items2 = items2.concat(
+                                    network_filter(network,
+                                        d['target'], nodeset
+                                        .add(member), Math
+                                        .floor(
+                                            nodes / power),
+                                        depth - 1, power)[0])
+                            })
+                            return [items2, nodeset]
+                        }
+                    }
+
+                    function load_rings(member) {
+                        var nodes = [];
+                        var nincs = 'Nincsenek erős kapcsolatok';
+                        if (new Set(Object.keys(network.links)).has(member)) {
+                            var links_nodes = network_filter(network.links,
+                                member, new Set(), 10,
+                                3, 2);
+                            links = links_nodes[0];
+                            nodes = links_nodes[1];
+
+                            var nodes2 = [];
+                            nodes.forEach(function(d) {
+                                nodes2.push({
+                                    'id': d,
+                                    'value': network.nodes[d][sort_key]
+                                })
+                            })
+                        } else {
+                            var links = [{
+                                'source': member,
+                                'target': nincs,
+                                'value': 1
+                            }];
+                            var nodes2 = [{
+                                'id': member,
+                                'value': 0
+                            }, {
+                                'id': nincs,
+                                'value': 0
+                            }];
+
+                        }
+
+                        var links2 = [];
+                        links3 = new Set()
+                        links.forEach(function(d) {
+                            var id = JSON.stringify(Array.from(
+                                new Set(d['source'] + d[
+                                    'target'])).sort())
+                            if (!(links3.has(id))) {
+                                links2.push(d)
+                                links3.add(id)
+                            }
+                        })
+
+                        parent.document.getElementById('rings')
+                            .contentWindow.rings
+                            .links(links2)
+                            .linkSize(d => 2 + d.value / 1000)
+                            .linkSizeMin(2)
+                            .data(nodes2)
+                            .color(d => color(d.value))
+                            .on('click.shape', d => load(d.id))
+                            .label(d => simple2[d.id] + ((new Set(Object.keys(deaths))
+                                .has(d.id)) ? ' †' : ''))
+                            .center(member)
+                            .legend(false)
+                            .loadingMessage(false)
+                            .render()
+                    }
+
+                    function load(member) {
+                        if (new Set(Object.keys(m2x)).has(member)) {
+                            x = m2x[member]
+                            console.log('Loaded member', x, member)
+
+                            var ndata = rawdata
+                                .filter(function(d) {
+                                    return (d['Simple'] == member)
+                                })
+                            ndata.sort((a, b) => order[a.Típus] - order[b
+                                .Típus]);
+                            minmax = [new Date(Math.min.apply(null, ndata.map(
+                                    a =>
+                                    new Date(a.start)))),
+                                new Date(Math.max.apply(null, ndata.map(a =>
+                                    new Date(a
+                                        .end))))
+                            ];
+
+                            //update picture
+                            par.select('#profile')
+                                .attr('src', photo[member])
+                                //update bar
+                            load_bar(member)
+                                //update ring
+                                // load_rings('')
+                            load_rings(member)
+                                //update influence
+                            load_influence(member)
+                                //update tinfluence
+                                // load_tinfluence(member)
+
+                            par.select('#sessions')
+                                .html(get_links(member))
+                            show_drop(false)
+                            d3.select('#myInput')
+                                .property('value', pretty_drop2(member))
+                            viz.data(ndata)
+                                //.title(member)
+                                .axisConfig({
+                                    domain: extent ? ['1990', '2020'] : minmax
+                                })
+                                .render()
+
+                        } else {
+                            console.log(member, 'not found..')
+                        }
+                    }
+
+                    load(simple['Marian ENACHE'])
+                        // load('Ioan CHELARU')
+
+                    function pretty_drop(d) {
+                        if (new Set(Object.keys(part)).has(d)) {
+                            mpart = part[d].slice(0, part[d].search(' - '))
+                        } else {
+                            mpart = ''
+                        }
+                        if (new Set(Object.keys(megye)).has(d)) {
+                            mmegye = megye[d].slice(megye[d].search(' ') + 1)
+                        } else {
+                            mmegye = ''
+                        }
+                        return '<div style="width:300px;margin-left:10px;display:inline-block;white-space: nowrap;overflow:hidden;">' +
+                            (m2x[d] + 1) + '. ' + simple2[d] + ((new Set(Object.keys(
+                                deaths)).has(d)) ? ' † ' : '') +
+                            '</div><div style="width:140px;margin-left:0px;display:inline-block;white-space: nowrap;overflow:hidden;">' +
+                            mpart +
+                            '</div><div style="width:115px;margin-left:0px;display:inline-block;white-space: nowrap;overflow:hidden;">' +
+                            mmegye +
+                            '</div>'
+                    }
+
+                    function pretty_drop2(d) {
+                        if (new Set(Object.keys(part)).has(d)) {
+                            mpart = part[d].slice(0, part[d].search(' - '))
+                        } else {
+                            mpart = ''
+                        }
+                        if (new Set(Object.keys(megye)).has(d)) {
+                            mmegye = megye[d].slice(megye[d].search(' ') + 1)
+                        } else {
+                            mmegye = ''
+                        }
+                        var bi = d.indexOf(' | ');
+                        var bt = d.slice(bi + 3, bi + 7);
+                        var b = ((bt == 'Isme') ? '' : ' | ' + bt) + ((new Set(Object
+                            .keys(
+                                deaths)).has(d)) ? ' † ' + deaths[d] : '');
+                        return (m2x[d] + 1) + '. ' + simple2[d] + b +
+                            ' | ' + mpart +
+                            '  |  ' + mmegye
+                    }
+
+                    function myFunction() {
+                        // Declare variables
+                        var input, filter, ul, li, a, i, txtValue;
+                        input = document.getElementById('myInput');
+                        filter = input.value.toUpperCase();
+                        ul = document.getElementById("myUL");
+                        li = ul.getElementsByTagName('li');
+                        // Loop through all list items, and hide those who don't match the search query
+                        for (i = 0; i < li.length; i++) {
+                            a = li[i].getElementsByTagName("a")[0];
+                            txtValue = a.textContent ||
+                                a.innerText;
+                            valValue = a.getAttribute("value")
+                            if ((txtValue.toUpperCase().indexOf(filter) > -
+                                    1) || (
+                                    valValue.toUpperCase().indexOf(
+                                        filter) > -1
+                                )) {
+                                li[i].style.display = "";
+                            } else {
+                                li[i].style.display = "none";
+                            }
+                        }
+                    }
+
+                    var drop = false;
+                    d3.select('#myInput')
+                        .on('keyup', myFunction)
+                        .on('click', function(d) {
+                            show_drop(!drop)
+                        })
+
+                    d3.select('#left')
+                        .on('click', function(d) {
+                            show_drop(!drop)
+                        })
+
+                    d3.select('#right1')
+                        .on('click', function(d) {
+                            load(x2m[x + 1]);
+                        })
+
+                    d3.select('#right0')
+                        .on('click', function(d) {
+                            load(x2m[Math.max(0, x - 1)]);
+                        })
+
+                    d3.select('#right2')
+                        .on('click', function(d) {
+                            extent = !extent
+                            load(x2m[x]);
+                        })
+
+                    // d3.select('body')
+                    //   .on('click', function (d) {
+                    //     drop = false;
+                    //     d3.select('#myUL')
+                    //       .style('display', 'none')
+                    //   })
+
+                    d3.select('#myUL')
+                        .selectAll('li')
+                        .data(Object.keys(m2x))
+                        .enter()
+                        .append('li')
+                        .append('span')
+                        .append('a')
+                        .attr('href', '#')
+                        .html(function(d) {
+                            return pretty_drop(d)
+                        })
+                        .attr('value', function(d) {
+                            return d
+                        })
+                        .on('click', function(d) {
+                            load(d)
+                            setTimeout(function() {
+                                load(d)
+                            }, 2000)
+                        })
+
+                    // d3.select('#myUL')
+                    //   .selectAll('li')
+                    //   .append('img')
+                    //   .style('height',40)
+                    //   .attr('src', function (d) {
+                    //     return photo[simple[d]]
+                    //   })
+
+                    function show_drop(idrop) {
+                        drop = idrop;
+                        d3.select('#myInput')
+                            .property('value', '')
+                        d3.select('#myUL')
+                            .style('display', (drop) ? 'block' : 'none')
+                        if (drop) document.getElementById('myInput').focus()
+                        else d3.select('#myInput')
+                            .property('value', pretty_drop2(x2m[x]))
+                        myFunction();
+                    }
+
+                    document.addEventListener("keydown", function(event) {
+                        if ((event.keyCode >= 33 && event.keyCode <=
+                                34) || (
+                                event.keyCode >= 37 && event
+                                .keyCode <= 40) ||
+                            (event.keyCode == 13) || (
+                                event.keyCode == 27)) {
+                            switch (event.keyCode) {
+                                case 33: // pg up
+                                case 37: // left
+                                case 38: // up
+                                    load(x2m[Math.max(0, x - 1)]);
+                                    break;
+                                case 34: // pg down
+                                case 39: // right
+                                case 40: // down 
+                                    load(x2m[x + 1]);
+                                    break;
+                                case 13: //enter
+                                case 27: //esc
+                                    show_drop(false);
+                                    break;
+                            }
+
+                            event.preventDefault();
+                        }
+                    }, false);
+
+                    d3.select(parent.document.getElementById('priestley')).style(
+                        'opacity', 1)
+                    d3.select(parent.document.getElementById('profile')).style('height',
+                        '150px')
+                    d3.select(parent.document.getElementById('profile')).style('border',
+                        '1px solid #ddd')
+
+                })
+            })
+        })
+    })
+</script>
+
+</html>
