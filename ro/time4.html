@@ -1,9 +1,9 @@
 
         <script src='//d3plus.org/js/d3.js' type='text/javascript'></script>
 	<script src='//d3plus.org/js/d3plus.js' type='text/javascript'></script>
-        <div id='d3viz_11'></div>
+        <div id='d3viz_15'></div>
         <style>
-        div#d3viz_11{
+        div#d3viz_15{
              width: 100%px;
              height: 100%px;
         }
@@ -15,8 +15,8 @@
             
             var viz_data = [{"Megye ": "\ud83c\uddf7\ud83c\uddf4 Arad", "Atlagos eletkor": 51.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Arge\u0219", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Beszterce", "Atlagos eletkor": 50.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Bihar", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Boto\u0219ani", "Atlagos eletkor": 53.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Brass\u00f3", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Br\u0103ila", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Bukarest", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Buz\u0103u", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 B\u00e1k\u00f3", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 C\u0103l\u0103ra\u0219i", "Atlagos eletkor": 51.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Diaszp\u00f3ra", "Atlagos eletkor": 50.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Dolj", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 D\u00e2mbovi\u021ba", "Atlagos eletkor": 53.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Feh\u00e9r", "Atlagos eletkor": 50.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Galac", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Giurgiu", "Atlagos eletkor": 53.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Gorj", "Atlagos eletkor": 53.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Hargita", "Atlagos eletkor": 51.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Hunyad", "Atlagos eletkor": 51.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ialomi\u021ba", "Atlagos eletkor": 51.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ia\u0219i", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Ilfov", "Atlagos eletkor": 50.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Kolozs", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Konstanca", "Atlagos eletkor": 51.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Kov\u00e1szna", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Krass\u00f3-Sz\u00f6r\u00e9ny", "Atlagos eletkor": 53.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Maros", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Mehedin\u021bi", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 M\u00e1ramaros", "Atlagos eletkor": 50.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Neam\u021b", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Olt", "Atlagos eletkor": 54.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Prahova", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Suceava", "Atlagos eletkor": 55.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szatm\u00e1r", "Atlagos eletkor": 49.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szeben", "Atlagos eletkor": 53.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Szil\u00e1gy", "Atlagos eletkor": 55.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Teleorman", "Atlagos eletkor": 51.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Temes", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Tulcea", "Atlagos eletkor": 53.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Vaslui", "Atlagos eletkor": 52.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 Vrancea", "Atlagos eletkor": 48.0}, {"Megye ": "\ud83c\uddf7\ud83c\uddf4 V\u00e2lcea", "Atlagos eletkor": 55.0}];
 
-            var viz_d3viz_11 = d3plus.viz()
-                .container('#d3viz_11')
+            var viz_d3viz_15 = d3plus.viz()
+                .container('#d3viz_15')
                 .type('bar')
                 .id('Megye ')
 		.x('Megye ')
