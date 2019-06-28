@@ -22,7 +22,7 @@
     new d3plus.Priestley()
         .data('json/part_timelines.json')
         .groupBy(["label", "id"])
-        .depth(1)
+        .depth(0)
         .color("cvalue")
         .legend(false)
         .shapeConfig({
