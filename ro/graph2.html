@@ -18,15 +18,18 @@
         var app = {};
         option = null;
         myChart.showLoading();
-        d3.json('../json/plotter_csoportok.json', function (data) {
-            var tip = 'Megye'
-            var tip2 = 'Párt'
+        d3.json('ignore/plotter_csoportok.json', function (data) {
+            var tip = 'Total'
+            var tip2 = 'Total'
             var colors={'Megye':'darkred','Párt':'royalblue','Bizottság':'orange','Ország':'green'}
             var links = data[tip][tip2].links
             links=links.filter(d => d.value > 5000)
             var nodes = Object.values(data[tip][tip2].nodes)
+            console.log(nodes)
             nodes.forEach(function (d) {
-                d['symbolSize'] = d['pr']*5 + 1
+                d['name']=d['id']
+                d['value']=d['pr']
+                d['symbolSize'] = d['pr']**3 + 2
                 d['itemStyle']= {
                     color: colors[d['tipus']]
                 }
@@ -45,7 +48,7 @@
                     force: {
                         // initLayout: 'circular',
                         // gravity: 0.05
-                        layoutAnimation: false,
+                        // layoutAnimation: false,
                     },
                     draggable: false,
                     nodes: nodes,
