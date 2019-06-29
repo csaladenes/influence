@@ -31,11 +31,11 @@
                                         return Math.round(d['Megye'] * 100) / 100
                                 }, 'label': 'Megyevaltas / ev'
                         })
+                        .format(d => d)
                         .text('Nev')
                         .color('cvalue')
                         .tooltip(['Nev2', 'Part  ', 'Megye '])
                         .legend(false)
-                        .format(d => d)
                         .size('Evek')
                         .data(viz_data)
                         .draw();

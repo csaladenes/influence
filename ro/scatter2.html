@@ -32,11 +32,11 @@
                                         return Math.round(d['Bizottsag'] * 100) / 100
                                 }, 'label': 'Bizottsag'
                         })
+                        .format(d => d)
                         .text('Nev')
                         .color('cvalue')
                         .tooltip(['Nev2', 'Part  ', 'Megye '])
                         .legend(false)
-                        .format(d => d)
                         .size('Evek')
                         .draw();
 
