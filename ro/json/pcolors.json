@@ -16,6 +16,7 @@
     "PP-DD": "#9966cc",
     "PAR": "grey",
     "PL'93": "#f4d42c",
+    "ECO": "#69a54f",
     "MER": "#69a54f",
     "PMP": "#0484cc",
     "PC": "#96c2f2",
@@ -36,7 +37,9 @@
     "PDM": "grey",
     "PNL-AT": "#f4d42c",
     "ULB": "grey",
-    "Independent": "#444",
+    "Mas":"#777",
+    "Independent": "#555",
+    "Független": "#555",
     "Minorități": "#999",
     "RMDSZ": "green"
 }
