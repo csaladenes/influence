@@ -23,35 +23,42 @@
         var app = {};
         option = null;
         myChart.showLoading();
-        JSZipUtils.getBinaryContent('json/plotter_name.zip', function(err, raw_zip) {
+        JSZipUtils.getBinaryContent('json/plotter_name.zip', function (err, raw_zip) {
             var zip = new JSZip(raw_zip);
             var data = JSON.parse(zip.files['plotter_name.json'].asText());
-            JSZipUtils.getBinaryContent('json/member_simple.zip', function(err, raw_zip) {
+            JSZipUtils.getBinaryContent('json/member_simple.zip', function (err, raw_zip) {
                 var zip = new JSZip(raw_zip);
                 var rawsimple = JSON.parse(zip.files['member_simple.json']
                     .asText());
-                d3.json('json/pcolors.json').then(function(pcolors) {
+                d3.json('json/pcolors.json').then(function (pcolors) {
 
                     var links = [];
                     var nodes = new Set();
                     var nodes2 = [];
-                    var min_t = 6000;
+                    var min_t = 365 * 2 * 12
+                    // var min_t = 365 * 2 * 4; //alap
 
-                    Object.keys(data.links).forEach(function(d) {
-                        Object.keys(data.links[d]).forEach(function(e) {
+                    Object.keys(data.links).forEach(function (d) {
+                        Object.keys(data.links[d]).forEach(function (e) {
                             if (data.links[d][e] > min_t) {
                                 nodes.add(d)
                                 nodes.add(e)
                                 links.push({
                                     'source': d,
                                     'target': e,
-                                    'value': data.links[d][e]
+                                    'value': data.links[d][e],
+                                    'lineStyle': {
+                                        normal: {
+                                            width: data.links[d][e]/min_t+0
+                                            // curveness: 0.2
+                                        }
+                                    }
                                 })
                             }
                         })
                     })
 
-                    nodes.forEach(function(d) {
+                    nodes.forEach(function (d) {
                         c = rawsimple['part'][d]
                         if (c) {
                             c = c.slice(c.search(' ') + 1)
@@ -85,6 +92,8 @@
                                 // gravity: 0.05
                                 // layoutAnimation: false,
                             },
+                            // edgeSymbol: ['circle', 'arrow'],
+
                             label: {
                                 normal: {
                                     position: 'right',

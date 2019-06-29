@@ -139,9 +139,9 @@
 <script>
     var par = d3.select(parent.document);
     var cols = ['🎙️ Felszólalások', '📚 Javaslatok', '🧾 Nyilatkozatok'];
-    JSZipUtils.getBinaryContent('json/plotter_name.zip', function (err, raw_zip) {
+    JSZipUtils.getBinaryContent('json/plotter_name_full.zip', function (err, raw_zip) {
         var zip = new JSZip(raw_zip);
-        var network = JSON.parse(zip.files['plotter_name.json'].asText());
+        var network = JSON.parse(zip.files['plotter_name_full.json'].asText());
         JSZipUtils.getBinaryContent('json/member_activity.zip', function (err, raw_zip) {
             var zip = new JSZip(raw_zip);
             var activitydata = JSON.parse(zip.files['member_activity.json'].asText());
