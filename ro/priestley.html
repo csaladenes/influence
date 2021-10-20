@@ -9,16 +9,8 @@
     <script src="js/d3-selection.v1.min.js"></script>
     <script src="js/jszip.min.js"></script>
     <script src="js/JSZipUtils.min.js"></script>
-    <!-- <script src="js/d3plus.v2.js"></script> -->
-    <!-- <script src="https://d3js.org/d3-color.v1.min.js"></script>
-    <script src="https://d3js.org/d3-interpolate.v1.min.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script> -->
-    <!-- <script src="https://d3js.org/d3.v5.min.js"></script> -->
-    <!-- <script src="https://d3plus.org/js/d3plus-form.v0.2.full.min.js"></script> -->
-    <script src="https://d3plus.org/js/d3plus-priestley.v0.3.full.min.js"></script>
-    <!-- <script src="https://d3plus.org/js/d3plus.v2.0.0-alpha.19.full.min.js"></script> -->
-    <!-- <script src="https://d3plus.org/js/d3plus-timeline.v0.4.full.min.js"></script> -->
-    <!-- <script src="https://d3plus.org/js/d3plus-legend.v0.8.full.min.js"></script> -->
+    <!-- <script src="https://d3plus.org/js/d3plus-priestley.v0.3.full.min.js"></script> -->
+    <script src="js/d3plus-priestley.v0.3.full.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -139,9 +131,9 @@
 <script>
     var par = d3.select(parent.document);
     var cols = ['🎙️ Felszólalások', '📚 Javaslatok', '🧾 Nyilatkozatok'];
-    JSZipUtils.getBinaryContent('json/plotter_name_full.zip', function (err, raw_zip) {
-        var zip = new JSZip(raw_zip);
-        var network = JSON.parse(zip.files['plotter_name_full.json'].asText());
+    // JSZipUtils.getBinaryContent('json/plotter_name_weighted.zip', function (err, raw_zip) {
+        // var zip = new JSZip(raw_zip);
+        // var network = JSON.parse(zip.files['plotter_name_weighted.json'].asText());
         JSZipUtils.getBinaryContent('json/member_activity.zip', function (err, raw_zip) {
             var zip = new JSZip(raw_zip);
             var activitydata = JSON.parse(zip.files['member_activity.json'].asText());
@@ -163,18 +155,23 @@
                     var max_influence = 0;
                     var sort_key = 'pr';
 
-                    Object.keys(network.nodes).forEach(function (d, i) {
-                        dummy = network.nodes[d]
-                        dummy['id'] = d
+                    // Object.keys(network.nodes).forEach(function (d, i) {
+                    //     dummy = network.nodes[d]
+                    //     dummy['id'] = d
+                    //     if (d.indexOf('|') > 0) {
+                    //         members.push(dummy)
+                    //         max_influence = Math.ceil(Math.max(max_influence,
+                    //             dummy[
+                    //             sort_key] || 0))
+                    //     }
+                    // })
+
+                    Object.keys(simple2).forEach(function (d, i) {
+                        dummy = { 'id': d }
                         if (d.indexOf('|') > 0) {
                             members.push(dummy)
-                            max_influence = Math.ceil(Math.max(max_influence,
-                                dummy[
-                                sort_key] || 0))
                         }
                     })
-
-                    // console.log(rawsimple)
 
                     members.sort((a, b) => b[sort_key] - a[sort_key])
                     var m2x = {};
@@ -185,10 +182,10 @@
                         x2m[i] = d.id;
                     })
 
-                    console.log('Loaded', members.length, 'members')
-                    console.log('Loaded network:', Object.keys(network.nodes).length,
-                        'nodes, out of which', Object.keys(network.links).length,
-                        'have links..')
+                    // console.log('Loaded', members.length, 'members with', network.size,'edges..')
+                    // console.log('Loaded network:', Object.keys(network.nodes).length,
+                    //     'nodes, out of which', Object.keys(network.links).length,
+                    //     'have links..')
 
                     var legend = ['Kamara', 'Megye', 'Párt', 'Bizottság',
                         'Ország'
@@ -206,22 +203,22 @@
                         'Bizottság': 3
                     }
 
-                    var colors = parent.document.getElementById('color')
-                        .contentWindow.color.color()
+                    // var colors = parent.document.getElementById('color')
+                    //     .contentWindow.color.color()
 
                     function color(c) {
                         return colors[Math.round((c / (max_influence)) * colors.length +
                             1) - 1]
                     }
 
-                    parent.document.getElementById('color')
-                        .contentWindow.color
-                        .render()
+                    // parent.document.getElementById('color')
+                    //     .contentWindow.color
+                    //     .render()
 
                     var viz = new d3plus.Priestley()
                         .data([])
                         .color("Típus")
-                        .groupBy(["Típus", "Csoportok1"])
+                        .groupBy(["Típus","Csoportok1"])
                         // .downloadButton(true)
                         .shapeConfig({
                             labelConfig: {
@@ -232,7 +229,7 @@
                         .legend(false)
                         .depth(1)
                         .width(600)
-                        .height(350)
+                        .height(465)
                         .loadingMessage(false)
 
                     function get_bar_data(name) {
@@ -464,6 +461,8 @@
                                     .end))))
                             ];
 
+                            console.log(ndata)
+
                             //update picture
                             par.select('#profile')
                                 .attr('src', photo[member])
@@ -471,9 +470,9 @@
                             load_bar(member)
                             //update ring
                             // load_rings('')
-                            load_rings(member)
+                            // load_rings(member)
                             //update influence
-                            load_influence(member)
+                            // load_influence(member)
                             //update tinfluence
                             // load_tinfluence(member)
 
@@ -492,9 +491,12 @@
                         } else {
                             console.log(member, 'not found..')
                         }
+                        
+                        // console.log(ndata)
+                        
                     }
 
-                    load(simple['Victor-Viorel PONTA'])
+                    load(simple['Călin Constantin Anton POPESCU-TĂRICEANU'])
                     // load('Ioan CHELARU')
 
                     function pretty_drop(d) {
@@ -677,7 +679,7 @@
 
                 })
             })
-        })
+        // })
     })
 </script>
 

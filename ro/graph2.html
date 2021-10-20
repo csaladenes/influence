@@ -9,28 +9,33 @@
     <div id="container" style="height: 100%"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
     <script src="//d3plus.org/js/d3.js"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-    <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js">
-    </script>
+    <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script> -->
+    <!-- <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.1/dist/echarts.min.js"></script>
     <script type="text/javascript">
         var dom = document.getElementById("container");
         var myChart = echarts.init(dom);
         var app = {};
         option = null;
         myChart.showLoading();
-        d3.json('ignore/plotter_csoportok.json', function (data) {
+        d3.json('ignore/plotter_csoportok.json', function(data) {
             var tip = 'Total'
             var tip2 = 'Total'
-            var colors={'Megye':'darkred','Párt':'royalblue','Bizottság':'orange','Ország':'green'}
+            var colors = {
+                'Megye': 'darkred',
+                'Párt': 'royalblue',
+                'Bizottság': 'orange',
+                'Ország': 'green'
+            }
             var links = data[tip][tip2].links
-            links=links.filter(d => d.value > 5000)
+            links = links.filter(d => d.value > 5000)
             var nodes = Object.values(data[tip][tip2].nodes)
             console.log(nodes)
-            nodes.forEach(function (d) {
-                d['name']=d['id']
-                d['value']=d['pr']
-                d['symbolSize'] = d['pr']**3 + 2
-                d['itemStyle']= {
+            nodes.forEach(function(d) {
+                d['name'] = d['id']
+                d['value'] = d['pr']
+                d['symbolSize'] = d['pr'] ** 3 + 2
+                d['itemStyle'] = {
                     color: colors[d['tipus']]
                 }
             })

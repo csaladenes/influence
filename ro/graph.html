@@ -6,7 +6,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-40713687-7"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
         gtag('js', new Date());
 
         gtag('config', 'UA-40713687-7');
@@ -22,9 +25,9 @@
     <script src="js/d3-fetch.v1.min.js"></script>
     <script src="js/d3-dsv.v1.min.js"></script>
     <script src="js/d3-selection.v1.min.js"></script>
-    <script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
-    <script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js">
-    </script>
+    <!-- <script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script> -->
+    <!-- <script type="text/javascript" src="//echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.2.1/dist/echarts.min.js"></script>
     <script src="js/jszip.min.js"></script>
     <script src="js/JSZipUtils.min.js"></script>
     <script type="text/javascript">
@@ -33,23 +36,23 @@
         var app = {};
         option = null;
         myChart.showLoading();
-        JSZipUtils.getBinaryContent('json/plotter_name.zip', function (err, raw_zip) {
+        JSZipUtils.getBinaryContent('json/plotter_name.zip', function(err, raw_zip) {
             var zip = new JSZip(raw_zip);
             var data = JSON.parse(zip.files['plotter_name.json'].asText());
-            JSZipUtils.getBinaryContent('json/member_simple.zip', function (err, raw_zip) {
+            JSZipUtils.getBinaryContent('json/member_simple.zip', function(err, raw_zip) {
                 var zip = new JSZip(raw_zip);
                 var rawsimple = JSON.parse(zip.files['member_simple.json']
                     .asText());
-                d3.json('json/pcolors.json').then(function (pcolors) {
+                d3.json('json/pcolors.json').then(function(pcolors) {
 
                     var links = [];
                     var nodes = new Set();
                     var nodes2 = [];
                     var min_t = 365 * 2 * 8
-                    // var min_t = 365 * 2 * 4; //alap
+                        // var min_t = 365 * 2 * 4; //alap
 
-                    Object.keys(data.links).forEach(function (d) {
-                        Object.keys(data.links[d]).forEach(function (e) {
+                    Object.keys(data.links).forEach(function(d) {
+                        Object.keys(data.links[d]).forEach(function(e) {
                             if (data.links[d][e] > min_t) {
                                 nodes.add(d)
                                 nodes.add(e)
@@ -59,8 +62,8 @@
                                     'value': data.links[d][e],
                                     'lineStyle': {
                                         normal: {
-                                            width: Math.pow(data.links[d][e]/min_t,3)-0.5
-                                            // curveness: 0.2
+                                            width: Math.pow(data.links[d][e] / min_t, 3) - 0.5
+                                                // curveness: 0.2
                                         }
                                     }
                                 })
@@ -68,7 +71,7 @@
                         })
                     })
 
-                    nodes.forEach(function (d) {
+                    nodes.forEach(function(d) {
                         c = rawsimple['part'][d]
                         if (c) {
                             c = c.slice(c.search(' ') + 1)
