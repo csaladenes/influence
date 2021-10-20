@@ -4,7 +4,7 @@
 <head>
 
     <meta charset="utf-8">
-    <script src="https://d3plus.org/js/d3plus-priestley.v0.3.full.min.js"></script>
+    <script src="js/d3plus-priestley.v0.3.full.min.js"></script>
 
     <style>
         body {
@@ -18,7 +18,6 @@
 <body></body>
 
 <script>
-
     new d3plus.Priestley()
         .data('json/part_timelines.json')
         .groupBy(["label", "id"])
@@ -35,7 +34,6 @@
             domain: ['1990', '2020']
         })
         .render();
-
 </script>
 
 </html>

@@ -3,46 +3,61 @@
 
 <head>
 
-  <meta charset="utf-8">
-  <script src="https://d3plus.org/js/d3plus-plot.v0.8.full.min.js"></script>
+    <meta charset="utf-8">
+    <script src="js/d3plus-plot.v0.8.full.min.js"></script>
 
-  <style>
-    body {
-      margin: 0;
-      overflow: hidden;
-    }
-  </style>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
 
 </head>
 
 <body></body>
 
 <script>
+    var data = [{
+        id: "alpha",
+        x: 4,
+        y: 7
+    }, {
+        id: "alpha",
+        x: 5,
+        y: 25
+    }, {
+        id: "alpha",
+        x: 6,
+        y: 13
+    }, {
+        id: "beta",
+        x: 4,
+        y: 17
+    }, {
+        id: "beta",
+        x: 5,
+        y: 8
+    }, {
+        id: "beta",
+        x: 6,
+        y: 13
+    }];
 
-  var data = [
-    { id: "alpha", x: 4, y: 7 },
-    { id: "alpha", x: 5, y: 25 },
-    { id: "alpha", x: 6, y: 13 },
-    { id: "beta", x: 4, y: 17 },
-    { id: "beta", x: 5, y: 8 },
-    { id: "beta", x: 6, y: 13 }
-  ];
-
-  new d3plus.StackedArea()
-    .data('json/part_timelines2.json')
-    .groupBy("id")
-    .time('x')
-    .groupBy(["label", "id"])
-    .depth(0)
-    .color("cvalue")
-    // .legend(false)
-    // .stackOffset("expand")
-    .timeline(false)
-    .xConfig({
-      domain: ['1990', '2020']
-    })
-    .render();
-
+    new d3plus.StackedArea()
+        .data('json/part_timelines2.json')
+        .groupBy("id")
+        .time('x')
+        .groupBy(["label", "id"])
+        .depth(0)
+        .color("cvalue")
+        // .legend(false)
+        // .stackOffset("expand")
+        .timeline(false)
+        .xConfig({
+            domain: ['1990', '2020']
+        })
+        .render();
 </script>
 
 </html>
