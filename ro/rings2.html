@@ -7,13 +7,13 @@
         overflow: hidden;
     }
 </style>
-<script src="//d3plus.org/js/d3.js"></script>
-<script src="https://d3plus.org/js/d3plus-network.v0.5.full.min.js"></script>
+<script src="js/d3.js"></script>
+<script src="js/d3plus-network.v0.5.full.min.js"></script>
 
 <div id="viz"></div>
 
 <script>
-    d3.json('json/plotter_csoportok.json', function (data) {
+    d3.json('json/plotter_csoportok.json', function(data) {
         var tip = 'Total'
         var tip2 = 'Total'
         var colors = {
@@ -22,7 +22,7 @@
             'Bizottság': 'orange',
             'Ország': 'green'
         }
-        var link_value='geometric' //percent ~ fontossag, annealed value ~ influence
+        var link_value = 'geometric' //percent ~ fontossag, annealed value ~ influence
         var network = data[tip][tip2].links
         network = network.filter(d => d.value > 4000)
         network = network.filter(d => d[link_value] > 10)
@@ -33,14 +33,14 @@
             if (depth == 0) {
                 return []
             } else {
-                var items = network.filter(d => ((d['source'] == member)||d['target'] == member))
+                var items = network.filter(d => ((d['source'] == member) || d['target'] == member))
                 items.sort((a, b) => b[link_value] - a[link_value]);
                 items = items.slice(0, nodes)
                 var items2 = items
-                items.forEach(function (d) {
+                items.forEach(function(d) {
                     items2 = items2.concat(
                         network_filter(network,
-                            (d['source'] == member)?d['target']:d['source'], Math.floor(
+                            (d['source'] == member) ? d['target'] : d['source'], Math.floor(
                                 nodes / power),
                             depth - 1, power))
                 })
@@ -61,19 +61,19 @@
             }
             links2 = []
             links3 = new Set()
-            links.forEach(function (d) {
+            links.forEach(function(d) {
                 var id = JSON.stringify(Array.from(new Set(d['source'] + d['target'])).sort())
                 if (!(links3.has(id))) {
                     links2.push(d)
                     links3.add(id)
                 }
             })
-            console.log(nodes,links2)
+            console.log(nodes, links2)
             rings
                 .links(links2)
                 .linkSize(d => d[link_value])
                 .linkSizeMin(2)
-                .on('click.shape', function (d) {
+                .on('click.shape', function(d) {
                     load(d.id)
                 })
                 .nodes(nodes)
