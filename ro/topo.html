@@ -3,7 +3,11 @@
 
 <head>
     <meta charset="utf-8">
-    <script src="https://d3plus.org/js/d3plus-geomap.v0.6.full.min.js"></script>
+    <!-- <script src="https://d3plus.org/js/d3plus-geomap.v0.6.full.min.js"></script> -->
+    <script src="js/d3plus-geomap.full.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/d3plus-geomap@1"></script> -->
+    <!-- <script src='js/d3.js'></script> -->
+    <!-- <script src='js/d3plus.js'></script> -->
     <style>
         body {
             margin: 0;
@@ -16,14 +20,14 @@
 <script>
     // var colors = ['white','#E91C62', '#282f6b']
     // var colors = ['gold', 'darkRed']
-    var colors = ['#eee','#E91C62','#333']
+    var colors = ['#eee', '#E91C62', '#333']
     var chart = new d3plus.Geomap()
         .data('json/megye_map.json')
         .colorScale("Atlagos regiseg")
         .colorScaleConfig({
-           color:colors,
+            color: colors,
             axisConfig: {
-                tickFormat: function (d) {
+                tickFormat: function(d) {
                     return Math.round(d) + " év";
                 }
             },
@@ -35,8 +39,8 @@
         .loadingMessage(false)
         .label(d => d['Megye '] + ' | ' + d['Atlagos regiseg'] + " év")
 
-    chart.topojson("json/romania-counties.json", function (map) {
-        map['objects']['ROU_adm1']['geometries'].forEach(function (d, i) {
+    chart.topojson("json/romania-counties.json", function(map) {
+        map['objects']['ROU_adm1']['geometries'].forEach(function(d, i) {
             d['id'] = i
         })
         return map
